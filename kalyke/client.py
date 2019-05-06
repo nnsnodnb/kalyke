@@ -73,7 +73,7 @@ class BaseClient(object):
                 registration_id, alert, identifier, expiration, priority, connection, auth_token, bundle_id, topic
             ) for registration_id in registration_ids
         ]
-        return await asyncio.gather(*tasks)
+        return await asyncio.gather(*tasks, return_exceptions=True)
 
     async def _send_message(self, registration_id, alert, identifier=None, expiration=None, priority=10,
                             connection=None, auth_token=None, bundle_id=None, topic=None):
