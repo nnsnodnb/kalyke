@@ -1,7 +1,7 @@
 from collections import namedtuple
 from contextlib import closing
 from hyper import HTTP20Connection
-from .exceptions import ImproperlyConfigured, PayloadTooLarge, InternalException
+from .exceptions import KalykeException, ImproperlyConfigured, PayloadTooLarge, InternalException
 from .payload import Payload
 
 import asyncio
@@ -51,13 +51,27 @@ class BaseClient(object):
         return asyncio.run(self._send_message(registration_id, alert, **kwargs))
 
     def send_bulk_message(self, registration_ids, alert, **kwargs):
-        success_registration_ids, failure_registration_ids = [], []
+        success_registration_ids, failure_exceptions = [], []
 
         with closing(self._create_connection()) as connection:
             loop = asyncio.get_event_loop()
             results = await self._create_bulk_request_tasks(
                 loop, connection, registration_ids, alert, **kwargs
             )
+            for registration_id, result in zip(registration_ids, results):
+                if isinstance(result, KalykeException):
+                    failure_exceptions.append(result)
+                else:
+                    success_registration_ids.append(registration_id)
+
+            if not failure_exceptions:
+                return results
+
+            if not success_registration_ids:
+                return failure_exceptions
+
+            if failure_exceptions and success_registration_ids:
+                pass
 
     async def _create_bulk_request_tasks(self, loop, connection, registration_ids, alert, **kwargs):
         identifier = kwargs.get('identifier')
