@@ -2,6 +2,7 @@ from collections import namedtuple
 from contextlib import closing
 from hyper import HTTP20Connection
 from .exceptions import ImproperlyConfigured, PayloadTooLarge, InternalException
+from .payload import Payload
 
 import importlib
 import json
@@ -55,8 +56,7 @@ class BaseClient(object):
                 'You must provide your bundle_id if you do not specify a topic'
             )
 
-        # FIXME: APNS Support
-        obj = alert if isinstance(alert, dict) else {}
+        obj = alert.dict() if isinstance(alert, Payload) else alert if isinstance(alert, dict) else {}
         json_data = json.dumps(obj, separators=(',', ':'), sort_keys=True).encode('utf-8')
 
         if len(json_data) > self.max_notification_size:
