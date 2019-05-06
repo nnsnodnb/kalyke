@@ -163,7 +163,6 @@ class VoIPClient(BaseClient):
         super().__init__(auth_key_filepath, bundle_id, use_sandbox, force_proto)
 
     def _create_auth_key(self, auth_key_filepath):
-        # TODO: Validate X509
         return auth_key_filepath
 
     def _create_token(self):
