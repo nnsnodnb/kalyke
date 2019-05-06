@@ -4,6 +4,7 @@ from hyper import HTTP20Connection
 from .exceptions import ImproperlyConfigured, PayloadTooLarge, InternalException
 from .payload import Payload
 
+import asyncio
 import importlib
 import json
 import jwt
@@ -47,10 +48,10 @@ class BaseClient(object):
         self.host = SANDBOX_HOST if use_sandbox else PRODUCTION_HOST
 
     def send_message(self, registration_id, alert, **kwargs):
-        return self._send_message(registration_id, alert, **kwargs)
+        return asyncio.run(self._send_message(registration_id, alert, **kwargs))
 
-    def _send_message(self, registration_id, alert, identifier=None, expiration=None, priority=10,
-                      connection=None, auth_token=None, bundle_id=None, topic=None):
+    async def _send_message(self, registration_id, alert, identifier=None, expiration=None, priority=10,
+                            connection=None, auth_token=None, bundle_id=None, topic=None):
         if not (topic or bundle_id or self.bundle_id):
             raise ImproperlyConfigured(
                 'You must provide your bundle_id if you do not specify a topic'
@@ -82,10 +83,12 @@ class BaseClient(object):
         headers['apns-id'] = str(identifier)
 
         if connection:
-            self._send_notification_request(connection, registration_id, json_data, headers)
+            response = self._send_notification_request(connection, registration_id, json_data, headers)
         else:
             with closing(self._create_connection()) as connection:
-                self._send_notification_request(connection, registration_id, json_data, headers)
+                response = self._send_notification_request(connection, registration_id, json_data, headers)
+
+        return response
 
     def _send_notification_request(self, connection, registration_id, body, headers):
         connection.request(
