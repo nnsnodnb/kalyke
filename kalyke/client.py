@@ -1,7 +1,9 @@
+from collections import namedtuple
 from contextlib import closing
 from hyper import HTTP20Connection
-from .exceptions import ImproperlyConfigured, PayloadTooLarge
+from .exceptions import ImproperlyConfigured, PayloadTooLarge, InternalException
 
+import importlib
 import json
 import jwt
 import ssl
@@ -11,6 +13,21 @@ import uuid
 
 SANDBOX_HOST = 'api.development.push.apple.com:443'
 PRODUCTION_HOST = 'api.push.apple.com:443'
+
+RESPONSE_CODES = {
+    'Success': 200,
+    'BadRequest': 400,
+    'TokenError': 403,
+    'MethodNotAllowed': 405,
+    'TokenInactive': 410,
+    'PayloadTooLarge': 413,
+    'TooManyRequests': 429,
+    'InternalServerError': 500,
+    'ServerUnavailable': 503,
+}
+
+ResponseStruct = namedtuple('APNSResponseStruct', ' '.join(RESPONSE_CODES.keys()))
+Response = ResponseStruct(**RESPONSE_CODES)
 
 
 class BaseClient(object):
@@ -75,6 +92,20 @@ class BaseClient(object):
             'POST', f'/3/device/{registration_id}', body, headers
         )
         response = connection.get_response()
+
+        if response.status_code == Response.Success:
+            return True
+
+        body = json.loads(response.read().decode('utf-8'))
+        reason = body.get('reason')
+        if reason:
+            exceptions_module = importlib.import_module('kalyke.exceptions')
+            try:
+                exception_class = getattr(exceptions_module, reason)
+            except AttributeError:
+                exception_class = InternalException
+
+            raise exception_class()
 
     def _create_auth_key(self, auth_key_filepath):
         raise NotImplementedError()

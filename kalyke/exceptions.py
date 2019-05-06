@@ -202,3 +202,7 @@ class Shutdown(KalykeException):
     The server is shutting down.
     """
     pass
+
+
+class InternalException(KalykeException):
+    pass
