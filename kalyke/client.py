@@ -91,7 +91,7 @@ class APNsClient(BaseClient):
     def __init__(self, team_id, auth_key_id, auth_key_filepath, bundle_id, use_sandbox=False, force_proto=None):
         self.team_id = team_id
         self.auth_key_id = auth_key_id
-        super(APNsClient, self).__init__(auth_key_filepath, bundle_id, use_sandbox, force_proto)
+        super().__init__(auth_key_filepath, bundle_id, use_sandbox, force_proto)
 
     def _create_auth_key(self, auth_key_filepath):
         try:
@@ -129,7 +129,7 @@ class VoIPClient(BaseClient):
     def __init__(self, auth_key_filepath, bundle_id, use_sandbox=False, force_proto='h2'):
         if not bundle_id.endswith('.voip'):
             bundle_id += '.voip'
-        super(VoIPClient, self).__init__(auth_key_filepath, bundle_id, use_sandbox, force_proto)
+        super().__init__(auth_key_filepath, bundle_id, use_sandbox, force_proto)
 
     def _create_auth_key(self, auth_key_filepath):
         # TODO: Validate X509
