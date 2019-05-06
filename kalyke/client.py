@@ -50,6 +50,31 @@ class BaseClient(object):
     def send_message(self, registration_id, alert, **kwargs):
         return asyncio.run(self._send_message(registration_id, alert, **kwargs))
 
+    def send_bulk_message(self, registration_ids, alert, **kwargs):
+        success_registration_ids, failure_registration_ids = [], []
+
+        with closing(self._create_connection()) as connection:
+            loop = asyncio.get_event_loop()
+            results = await self._create_bulk_request_tasks(
+                loop, connection, registration_ids, alert, **kwargs
+            )
+
+    async def _create_bulk_request_tasks(self, loop, connection, registration_ids, alert, **kwargs):
+        identifier = kwargs.get('identifier')
+        expiration = kwargs.get('expiration')
+        priority = kwargs.get('priority', 10)
+        auth_token = kwargs.get('auth_token')
+        bundle_id = kwargs.get('bundle_id')
+        topic = kwargs.get('topic')
+
+        tasks = [
+            await loop.run_in_executor(
+                None, self._send_message,
+                registration_id, alert, identifier, expiration, priority, connection, auth_token, bundle_id, topic
+            ) for registration_id in registration_ids
+        ]
+        return await asyncio.gather(*tasks)
+
     async def _send_message(self, registration_id, alert, identifier=None, expiration=None, priority=10,
                             connection=None, auth_token=None, bundle_id=None, topic=None):
         if not (topic or bundle_id or self.bundle_id):
