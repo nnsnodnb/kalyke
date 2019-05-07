@@ -1,4 +1,6 @@
+-r requirements.txt
 tox
 coverage
 coveralls
 pytest
+pytest-cov
