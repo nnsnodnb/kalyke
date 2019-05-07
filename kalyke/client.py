@@ -28,7 +28,7 @@ RESPONSE_CODES = {
     'ServerUnavailable': 503,
 }
 
-ResponseStruct = namedtuple('APNSResponseStruct', ' '.join(RESPONSE_CODES.keys()))
+ResponseStruct = namedtuple('ResponseStruct', ' '.join(RESPONSE_CODES.keys()))
 Response = ResponseStruct(**RESPONSE_CODES)
 
 
