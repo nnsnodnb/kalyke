@@ -55,8 +55,8 @@ class BaseClient(object):
 
         with closing(self._create_connection()) as connection:
             loop = asyncio.get_event_loop()
-            results = await self._create_bulk_request_tasks(
-                loop, connection, registration_ids, alert, **kwargs
+            results = loop.run_until_complete(
+                self._create_bulk_request_tasks(loop, connection, registration_ids, alert, **kwargs)
             )
 
         for registration_id, result in zip(registration_ids, results):
@@ -137,11 +137,15 @@ class BaseClient(object):
 
         return response
 
-    def _send_notification_request(self, connection, registration_id, body, headers):
-        connection.request(
-            'POST', f'/3/device/{registration_id}', body, headers
+    async def _send_notification_request(self, connection, registration_id, body, headers):
+        loop = asyncio.get_event_loop()
+
+        request = await loop.run_in_executor(
+            None, connection.request, 'POST', f'/3/device/{registration_id}', body, headers
         )
-        response = connection.get_response()
+        response = await loop.run_in_executor(
+            None, request.get_response()
+        )
 
         if response.status_code == Response.Success:
             return True
