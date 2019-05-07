@@ -85,7 +85,7 @@ class BaseClient(object):
         identifier = kwargs.get('identifier')
         expiration = kwargs.get('expiration')
         priority = kwargs.get('priority', 10)
-        auth_token = kwargs.get('auth_token')
+        auth_token = kwargs.get('auth_token', self._create_token())
         bundle_id = kwargs.get('bundle_id')
         topic = kwargs.get('topic')
 
