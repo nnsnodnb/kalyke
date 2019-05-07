@@ -1,0 +1,5 @@
+[report]
+include =
+  kalyke/*
+omit =
+  kalyke/__init__.py
