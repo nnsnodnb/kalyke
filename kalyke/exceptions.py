@@ -206,3 +206,10 @@ class Shutdown(KalykeException):
 
 class InternalException(KalykeException):
     pass
+
+
+class PartialBulkMessage(KalykeException):
+
+    def __init__(self, message, failure_exceptions):
+        super().__init__(message)
+        self.failure_exceptions = failure_exceptions

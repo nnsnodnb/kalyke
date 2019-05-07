@@ -1,7 +1,7 @@
 from collections import namedtuple
 from contextlib import closing
 from hyper import HTTP20Connection
-from .exceptions import KalykeException, ImproperlyConfigured, PayloadTooLarge, InternalException
+from .exceptions import KalykeException, ImproperlyConfigured, PayloadTooLarge, InternalException, PartialBulkMessage
 from .payload import Payload
 
 import asyncio
@@ -58,20 +58,28 @@ class BaseClient(object):
             results = await self._create_bulk_request_tasks(
                 loop, connection, registration_ids, alert, **kwargs
             )
-            for registration_id, result in zip(registration_ids, results):
-                if isinstance(result, KalykeException):
-                    failure_exceptions.append(result)
-                else:
-                    success_registration_ids.append(registration_id)
 
-            if not failure_exceptions:
-                return results
+        for registration_id, result in zip(registration_ids, results):
+            if isinstance(result, KalykeException):
+                failure_exceptions.append((registration_id, result))
+            else:
+                success_registration_ids.append(registration_id)
 
-            if not success_registration_ids:
-                return failure_exceptions
+        if not failure_exceptions:
+            return results
 
-            if failure_exceptions and success_registration_ids:
-                pass
+        if not success_registration_ids:
+            return failure_exceptions
+
+        if failure_exceptions and success_registration_ids:
+            raise PartialBulkMessage(
+                'Some of the registration ids were accepted. Rerun individual '
+                'The ones that failed: \n'
+                f'{", ".join(map(lambda exception: exception[0], failure_exceptions))}'
+                'The ones that were pushed successfully: \n'
+                f'{", ".join(success_registration_ids)}',
+                failure_exceptions
+            )
 
     async def _create_bulk_request_tasks(self, loop, connection, registration_ids, alert, **kwargs):
         identifier = kwargs.get('identifier')
