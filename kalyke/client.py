@@ -130,24 +130,20 @@ class BaseClient(object):
         headers['apns-id'] = str(identifier)
 
         if connection:
-            response = self._send_notification_request(connection, registration_id, json_data, headers)
+            response = await self._send_notification_request(connection, registration_id, json_data, headers)
         else:
             with closing(self._create_connection()) as connection:
-                response = self._send_notification_request(connection, registration_id, json_data, headers)
+                response = await self._send_notification_request(connection, registration_id, json_data, headers)
 
         return response
 
     async def _send_notification_request(self, connection, registration_id, body, headers):
-        loop = asyncio.get_event_loop()
-
-        request = await loop.run_in_executor(
-            None, connection.request, 'POST', f'/3/device/{registration_id}', body, headers
+        connection.request(
+            'POST', f'/3/device/{registration_id}', body, headers
         )
-        response = await loop.run_in_executor(
-            None, request.get_response()
-        )
+        response = connection.get_response()
 
-        if response.status_code == Response.Success:
+        if response.status == Response.Success:
             return True
 
         body = json.loads(response.read().decode('utf-8'))
