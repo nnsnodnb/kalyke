@@ -9,6 +9,7 @@ coverage = "*"
 coveralls = "*"
 pytest = "*"
 pytest-cov = "*"
+ipython = "*"
 
 [packages]
 asn1crypto = "==0.24.0"
