@@ -19,7 +19,7 @@ registration_id = hashlib.sha256(('%.12f' % random()).encode('utf-8')).hexdigest
 
 result = client.send_message(registration_id, alert)
 
-# Send multiple VoIP notification
+# Send multiple VoIP notifications
 
 registration_ids = [
     hashlib.sha256(('%.12f' % random()).encode('utf-8')).hexdigest() for _ in range(10)
