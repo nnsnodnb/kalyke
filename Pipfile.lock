@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "624869739b1688f518c469c60b368cff5026f675e66aeb9f1b45f3d109b79524"
+            "sha256": "ca4d504a55dcee85e1382425fae0c6f67e6715065af678a4403c2ca21a50eb5b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -21,7 +21,6 @@
                 "sha256:2f1adbb7546ed199e3c90ef23ec95c5cf3585bac7d11fb7eb562a3fe89c64e87",
                 "sha256:9d5c20441baf0cb60a4ac34cc447c6c189024b6b4c6cd7877034f4965c464e49"
             ],
-            "index": "pypi",
             "version": "==0.24.0"
         },
         "cffi": {
@@ -55,7 +54,6 @@
                 "sha256:e1ff2748c84d97b065cc95429814cdba39bcbd77c9c85c89344b317dc0d9cbff",
                 "sha256:ed851c75d1e0e043cbf5ca9a8e1b13c4c90f3fbd863dacb01c0808e2b5204201"
             ],
-            "index": "pypi",
             "version": "==1.12.3"
         },
         "cryptography": {
@@ -88,7 +86,6 @@
                 "sha256:93cbd1013a2218539af05cdf9fc37b786655b93bbc94f5296b7dabd1c5cadf41",
                 "sha256:af35878673c83a44afbc12b13ac91a489da2819b5dc1e11768f3c2406f740fe9"
             ],
-            "index": "pypi",
             "version": "==2.6.2"
         },
         "hpack": {
@@ -96,7 +93,6 @@
                 "sha256:0edd79eda27a53ba5be2dfabf3b15780928a0dff6eb0c60a3d6767720e970c89",
                 "sha256:8eec9c1f4bfae3408a3f30500261f7e6a65912dc138526ea054f9ad98892e9d2"
             ],
-            "index": "pypi",
             "version": "==3.0.0"
         },
         "hyper": {
@@ -112,14 +108,12 @@
                 "sha256:05f0e063e117c16fcdd13c12c93a4424a2c40668abfac3bb419a10f57698204e",
                 "sha256:4dcab11967482d400853b396d042038e4c492a15a5d2f57259e2b5f89a32f755"
             ],
-            "index": "pypi",
             "version": "==3.2.0"
         },
         "pycparser": {
             "hashes": [
                 "sha256:a988718abfad80b6b157acce7bf130a30876d27603738ac39f140993246b25b3"
             ],
-            "index": "pypi",
             "version": "==2.19"
         },
         "pyjwt": {
@@ -135,7 +129,6 @@
                 "sha256:3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c",
                 "sha256:d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"
             ],
-            "index": "pypi",
             "version": "==1.12.0"
         }
     },
@@ -371,7 +364,6 @@
                 "sha256:3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c",
                 "sha256:d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"
             ],
-            "index": "pypi",
             "version": "==1.12.0"
         },
         "toml": {
