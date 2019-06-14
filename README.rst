@@ -6,8 +6,6 @@ kalyke
     :target: https://travis-ci.org/nnsnodnb/kalyke
 .. image:: https://badge.fury.io/py/kalyke-apns.svg
     :target: https://pypi.org/project/kalyke-apns
-.. image:: https://badge.fury.io/py/kalyke-apns.svg
-    :target: https://pypi.org/project/kalyke-apns
 .. image:: https://img.shields.io/pypi/pyversions/kalyke-apns.svg
     :target: https://pypi.org/project/kalyke-apns
 .. image:: https://img.shields.io/pypi/status/kalyke-apns.svg
@@ -20,6 +18,12 @@ kalyke
     :target: https://pypi.org/project/kalyke-apns
 .. image:: https://img.shields.io/pypi/l/kalyke-apns.svg
     :target: https://pypi.org/project/kalyke-apns
+.. image:: https://api.codeclimate.com/v1/badges/fb85bcf746e1f4025afa/maintainability
+   :target: https://codeclimate.com/github/nnsnodnb/kalyke/maintainability
+   :alt: Maintainability
+.. image:: https://api.codacy.com/project/badge/Grade/9551aa9ca66a47a787e0db53068382b0
+   :alt: Codacy Badge
+   :target: https://app.codacy.com/app/nnsnodnb/kalyke?utm_source=github.com&utm_medium=referral&utm_content=nnsnodnb/kalyke&utm_campaign=Badge_Grade_Dashboard
 
 A library for interacting with APNs and VoIP using HTTP/2.
 
