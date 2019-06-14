@@ -75,9 +75,12 @@ class BaseClient(object):
             raise PartialBulkMessage(
                 'Some of the registration ids were accepted. Rerun individual '
                 'The ones that failed: \n'
-                f'{", ".join(map(lambda exception: exception[0], failure_exceptions))}'
+                '{}\n'
                 'The ones that were pushed successfully: \n'
-                f'{", ".join(success_registration_ids)}',
+                '{}'.format(
+                    ', '.join(map(lambda exception: exception[0], failure_exceptions)),
+                    ', '.join(success_registration_ids)
+                ),
                 failure_exceptions
             )
 
@@ -108,7 +111,7 @@ class BaseClient(object):
         json_data = json.dumps(obj, separators=(',', ':'), sort_keys=True).encode('utf-8')
 
         if len(json_data) > self.max_notification_size:
-            raise PayloadTooLarge(f'Notification body cannot exceed {self.max_notification_size} bytes')
+            raise PayloadTooLarge('Notification body cannot exceed {} bytes'.format(self.max_notification_size))
 
         expiration_time = expiration if expiration is not None else int(time.time()) + 2592000
 
@@ -123,7 +126,7 @@ class BaseClient(object):
 
         auth_token = auth_token or self._create_token()
         if auth_token:
-            headers['authorization'] = f'bearer {auth_token}'
+            headers['authorization'] = 'bearer {}'.format(auth_token)
 
         if not identifier:
             identifier = uuid.uuid4()
@@ -139,7 +142,7 @@ class BaseClient(object):
 
     async def _send_notification_request(self, connection, registration_id, body, headers):
         connection.request(
-            'POST', f'/3/device/{registration_id}', body, headers
+            'POST', '/3/device/{}'.format(registration_id), body, headers
         )
         response = connection.get_response()
 
