@@ -1,0 +1,20 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+tox = "*"
+coverage = "*"
+coveralls = "*"
+pytest = "*"
+pytest-cov = "*"
+ipython = "*"
+
+[packages]
+cryptography = "*"
+pyjwt = "*"
+hyper = "*"
+
+[requires]
+python_version = "3.7"
