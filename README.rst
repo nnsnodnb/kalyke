@@ -106,3 +106,8 @@ License
 
 This software is licensed under the MIT License (See
 `LICENSE <LICENSE>`__).
+
+
+.. image:: https://api.codacy.com/project/badge/Grade/9551aa9ca66a47a787e0db53068382b0
+   :alt: Codacy Badge
+   :target: https://app.codacy.com/app/nnsnodnb/kalyke?utm_source=github.com&utm_medium=referral&utm_content=nnsnodnb/kalyke&utm_campaign=Badge_Grade_Dashboard
