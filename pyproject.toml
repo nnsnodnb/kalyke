@@ -14,6 +14,9 @@ classifiers = [
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8"
 ]
+packages = [
+    { include = "kalyke" }
+]
 
 [tool.poetry.dependencies]
 python = "^3.5"
