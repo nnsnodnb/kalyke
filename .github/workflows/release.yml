@@ -24,12 +24,9 @@ jobs:
         poetry config virtualenvs.in-project true
         poetry run pip install -U setuptools pip
 
-    - name: Build
-      run: poetry build
-
-    - name: Publish to PyPI
+    - name: Build & Publish to PyPI
       env:
         API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
       run: |
-        poetry run config pypi-token.pypi ${API_TOKEN}
-        poetry publish
+        poetry config pypi-token.pypi ${API_TOKEN}
+        poetry publish --build
