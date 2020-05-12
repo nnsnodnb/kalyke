@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "kalyke-apns"
+version = "0.1.1"
+description = "A library for interacting with APNs and VoIP using HTTP/2."
+authors = ["Yuya Oka <nnsnodnb@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+cryptography = "~2.6.1"
+pyjwt = "~1.7.1"
+hyper = "~0.7.0"
+
+[tool.poetry.dev-dependencies]
+ipython = "^7.14.0"
+pytest = "^5.4.2"
+
+[build-system]
+requires = ["poetry>=1.0.5"]
+build-backend = "poetry.masonry.api"
