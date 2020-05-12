@@ -5,11 +5,13 @@ python:
   - "3.5"
   - "3.6"
   - "3.7"
+  - "3.8"
 install:
-  - pip install tox-travis
-  - pip install -r requirements-test.txt
+  - pip install poetry
+  - poetry install -vvv
+  - poetry run pip install tox-travis
 script:
-  - tox -r
+  - poetry run tox -r
 after_success:
-  - coverage report
-  - coveralls
+  - poetry run coverage report
+  - poetry run coveralls
