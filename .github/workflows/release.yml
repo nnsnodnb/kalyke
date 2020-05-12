@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - *
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: |
+        python -m pip install -U pip
+        pip install poetry==1.0.5
+        poetry config virtualenvs.in-project true
+        poetry run pip install -U setuptools pip
+
+    - name: Build
+      run: poetry build
+
+    - name: Publish to PyPI
+      env:
+        API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+      run: |
+        poetry run config pypi-token.pypi ${API_TOKEN}
+        poetry publish
