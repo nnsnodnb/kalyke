@@ -101,7 +101,7 @@ class BaseClient(object):
         return await asyncio.gather(*tasks, return_exceptions=True)
 
     async def _send_message(self, registration_id, alert, identifier=None, expiration=None, priority=10,
-                            connection=None, auth_token=None, bundle_id=None, topic=None):
+                            connection=None, auth_token=None, bundle_id=None, topic=None, push_type='Alert'):
         if not (topic or bundle_id or self.bundle_id):
             raise ImproperlyConfigured(
                 'You must provide your bundle_id if you do not specify a topic'
@@ -121,7 +121,8 @@ class BaseClient(object):
         headers = {
             'apns-expiration': str(expiration_time),
             'apns-priority': str(priority),
-            'apns-topic': topic
+            'apns-topic': topic,
+            'apns-push-type': push_type
         }
 
         auth_token = auth_token or self._create_token()
