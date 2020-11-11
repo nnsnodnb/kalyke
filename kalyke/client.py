@@ -101,7 +101,7 @@ class BaseClient(object):
         return await asyncio.gather(*tasks, return_exceptions=True)
 
     async def _send_message(self, registration_id, alert, identifier=None, expiration=None, priority=10,
-                            connection=None, auth_token=None, bundle_id=None, topic=None, push_type='Alert'):
+                            connection=None, auth_token=None, bundle_id=None, topic=None, push_type='alert'):
         if not (topic or bundle_id or self.bundle_id):
             raise ImproperlyConfigured(
                 'You must provide your bundle_id if you do not specify a topic'
