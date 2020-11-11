@@ -122,7 +122,7 @@ class BaseClient(object):
             'apns-expiration': str(expiration_time),
             'apns-priority': str(priority),
             'apns-topic': topic,
-            'apns-push-type': push_type
+            'apns-push-type': push_type,
         }
 
         auth_token = auth_token or self._create_token()
