@@ -39,6 +39,13 @@ client = APNsClient(
     team_id="YOUR_TEAM_ID", auth_key_id="AUTH_KEY_ID", auth_key_filepath="/path/to/AuthKey_AUTH_KEY_ID.p8",
     bundle_id="com.example.App", use_sandbox=True, force_proto="h2"
 )
+# or background push
+"""
+client = APNsClient(
+    team_id="YOUR_TEAM_ID", auth_key_id="AUTH_KEY_ID", auth_key_filepath="/path/to/AuthKey_AUTH_KEY_ID.p8",
+    bundle_id="com.example.App", use_sandbox=True, force_proto="h2", apns_push_type="background"
+)
+"""
 
 # Send single push notification
 
