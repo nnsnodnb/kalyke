@@ -43,7 +43,7 @@ class BaseClient(object):
         if not auth_key_filepath:
             raise ImproperlyConfigured("You must provide a path to a file containing the auth key")
 
-        if self.apns_push_type not in ["alert", "background"]:
+        if apns_push_type not in ["alert", "background"]:
             raise AttributeError("Please choice alert or background")
 
         self.auth_key = self._create_auth_key(auth_key_filepath)
