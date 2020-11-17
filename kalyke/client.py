@@ -47,7 +47,11 @@ class BaseClient(object):
         self.host = SANDBOX_HOST if use_sandbox else PRODUCTION_HOST
 
     def send_message(self, registration_id, alert, **kwargs) -> bool:
-        return asyncio.run(self._send_message(registration_id, alert, **kwargs))
+        try:
+            return asyncio.run(self._send_message(registration_id, alert, **kwargs))  # type: ignore
+        except AttributeError:
+            loop = asyncio.get_event_loop()
+            return loop.run_until_complete(self._send_message(registration_id, alert, **kwargs))
 
     def send_bulk_message(self, registration_ids, alert, **kwargs):  # type: ignore
         success_registration_ids, failure_exceptions = [], []
