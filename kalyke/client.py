@@ -6,6 +6,7 @@ import time
 import uuid
 from collections import namedtuple
 from contextlib import closing
+from typing import Dict, Optional, List
 
 import jwt
 from hyper import HTTP20Connection
@@ -16,7 +17,7 @@ from .payload import Payload
 SANDBOX_HOST = "api.development.push.apple.com:443"
 PRODUCTION_HOST = "api.push.apple.com:443"
 
-RESPONSE_CODES = {
+RESPONSE_CODES: Dict[str, int] = {
     "Success": 200,
     "BadRequest": 400,
     "TokenError": 403,
@@ -28,15 +29,15 @@ RESPONSE_CODES = {
     "ServerUnavailable": 503,
 }
 
-ResponseStruct = namedtuple("ResponseStruct", " ".join(RESPONSE_CODES.keys()))
-Response = ResponseStruct(**RESPONSE_CODES)
+ResponseStruct = namedtuple("ResponseStruct", " ".join(RESPONSE_CODES.keys()))  # type: ignore
+Response = ResponseStruct(**RESPONSE_CODES)  # type: ignore
 
 
 class BaseClient(object):
 
-    max_notification_size = 4 * 1024  # 4096 bytes
+    max_notification_size: int = 4 * 1024  # 4096 bytes
 
-    def __init__(self, auth_key_filepath, bundle_id, use_sandbox, force_proto):
+    def __init__(self, auth_key_filepath, bundle_id, use_sandbox, force_proto) -> None:
         if not auth_key_filepath:
             raise ImproperlyConfigured("You must provide a path to a file containing the auth key")
 
@@ -45,10 +46,10 @@ class BaseClient(object):
         self.force_proto = force_proto
         self.host = SANDBOX_HOST if use_sandbox else PRODUCTION_HOST
 
-    def send_message(self, registration_id, alert, **kwargs):
+    def send_message(self, registration_id, alert, **kwargs) -> bool:
         return asyncio.run(self._send_message(registration_id, alert, **kwargs))
 
-    def send_bulk_message(self, registration_ids, alert, **kwargs):
+    def send_bulk_message(self, registration_ids, alert, **kwargs):  # type: ignore
         success_registration_ids, failure_exceptions = [], []
 
         with closing(self._create_connection()) as connection:
@@ -81,8 +82,10 @@ class BaseClient(object):
                 ),
                 failure_exceptions,
             )
+        else:
+            raise AttributeError
 
-    async def _create_bulk_request_tasks(self, loop, connection, registration_ids, alert, **kwargs):
+    async def _create_bulk_request_tasks(self, loop, connection, registration_ids, alert, **kwargs) -> List[bool]:
         identifier = kwargs.get("identifier")
         expiration = kwargs.get("expiration")
         priority = kwargs.get("priority", 10)
@@ -119,7 +122,7 @@ class BaseClient(object):
         auth_token=None,
         bundle_id=None,
         topic=None,
-    ):
+    ) -> bool:
         if not (topic or bundle_id or self.bundle_id):
             raise ImproperlyConfigured("You must provide your bundle_id if you do not specify a topic")
 
@@ -152,11 +155,11 @@ class BaseClient(object):
 
         return response
 
-    async def _send_notification_request(self, connection, registration_id, body, headers):
+    async def _send_notification_request(self, connection, registration_id, body, headers) -> bool:
         connection.request("POST", "/3/device/{}".format(registration_id), body, headers)
         response = connection.get_response()
 
-        if response.status == Response.Success:
+        if response.status == Response.Success:  # type: ignore
             return True
 
         body = json.loads(response.read().decode("utf-8"))
@@ -169,24 +172,26 @@ class BaseClient(object):
                 exception_class = InternalException
 
             raise exception_class()
+        else:
+            raise AttributeError(body)
 
-    def _create_auth_key(self, auth_key_filepath):
+    def _create_auth_key(self, auth_key_filepath) -> str:
         raise NotImplementedError()
 
-    def _create_token(self):
+    def _create_token(self) -> Optional[str]:
         raise NotImplementedError()
 
-    def _create_connection(self):
+    def _create_connection(self) -> HTTP20Connection:
         raise NotImplementedError()
 
 
 class APNsClient(BaseClient):
-    def __init__(self, team_id, auth_key_id, auth_key_filepath, bundle_id, use_sandbox=False, force_proto=None):
+    def __init__(self, team_id, auth_key_id, auth_key_filepath, bundle_id, use_sandbox=False, force_proto=None) -> None:
         self.team_id = team_id
         self.auth_key_id = auth_key_id
         super().__init__(auth_key_filepath, bundle_id, use_sandbox, force_proto)
 
-    def _create_auth_key(self, auth_key_filepath):
+    def _create_auth_key(self, auth_key_filepath) -> str:
         try:
             with open(auth_key_filepath, "r") as f:
                 auth_key = f.read()
@@ -194,7 +199,7 @@ class APNsClient(BaseClient):
             raise ImproperlyConfigured("The APNS auth key file at %r is not readable: %s" % (auth_key_filepath, e))
         return auth_key
 
-    def _create_token(self):
+    def _create_token(self) -> Optional[str]:
         token = jwt.encode(
             {"iss": self.team_id, "iat": time.time()},
             self.auth_key,
@@ -206,26 +211,26 @@ class APNsClient(BaseClient):
         )
         return token.decode("ascii")
 
-    def _create_connection(self):
+    def _create_connection(self) -> HTTP20Connection:
         return HTTP20Connection(self.host, force_proto=self.force_proto)
 
 
 class VoIPClient(BaseClient):
 
-    max_notification_size = 5 * 1024  # 5120 bytes
+    max_notification_size: int = 5 * 1024  # 5120 bytes
 
-    def __init__(self, auth_key_filepath, bundle_id, use_sandbox=False, force_proto="h2"):
+    def __init__(self, auth_key_filepath, bundle_id, use_sandbox=False, force_proto="h2") -> None:
         if not bundle_id.endswith(".voip"):
             bundle_id += ".voip"
         super().__init__(auth_key_filepath, bundle_id, use_sandbox, force_proto)
 
-    def _create_auth_key(self, auth_key_filepath):
+    def _create_auth_key(self, auth_key_filepath) -> str:
         return auth_key_filepath
 
-    def _create_token(self):
+    def _create_token(self) -> Optional[str]:
         return None
 
-    def _create_connection(self):
+    def _create_connection(self) -> HTTP20Connection:
         ssl_context = ssl.create_default_context()
         ssl_context.load_cert_chain(self.auth_key)
         return HTTP20Connection(self.host, ssl_context=ssl_context, force_proto=self.force_proto)
