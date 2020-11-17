@@ -55,6 +55,6 @@ jobs:
     - name: Run pytest
       shell: bash
       run: |
-        python -m poetry run tox -r
+        python -m poetry run python -m pytest -v tests
         python -m poetry run coverage report
         python -m poetry run coveralls
