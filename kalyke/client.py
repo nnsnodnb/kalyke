@@ -1,17 +1,17 @@
-from collections import namedtuple
-from contextlib import closing
-from hyper import HTTP20Connection
-from .exceptions import KalykeException, ImproperlyConfigured, PayloadTooLarge, InternalException, PartialBulkMessage
-from .payload import Payload
-
 import asyncio
 import importlib
 import json
-import jwt
 import ssl
 import time
 import uuid
+from collections import namedtuple
+from contextlib import closing
 
+import jwt
+from hyper import HTTP20Connection
+
+from .exceptions import ImproperlyConfigured, InternalException, KalykeException, PartialBulkMessage, PayloadTooLarge
+from .payload import Payload
 
 SANDBOX_HOST = "api.development.push.apple.com:443"
 PRODUCTION_HOST = "api.push.apple.com:443"

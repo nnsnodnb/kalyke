@@ -1,6 +1,5 @@
 from kalyke.client import VoIPClient
 
-
 client = VoIPClient(
     auth_key_filepath="/path/to/YOUR_VOIP_CERTIFICATE.pem", bundle_id="com.example.App.voip", use_sandbox=True
 )

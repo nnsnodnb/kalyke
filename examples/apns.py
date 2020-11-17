@@ -1,6 +1,5 @@
 from kalyke.client import APNsClient
-from kalyke.payload import PayloadAlert, Payload
-
+from kalyke.payload import Payload, PayloadAlert
 
 payload_alert = PayloadAlert(title="YOUR TITLE", body="YOUR BODY")
 alert = Payload(alert=payload_alert, badge=1, sound="default")

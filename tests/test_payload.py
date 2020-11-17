@@ -1,5 +1,6 @@
-from kalyke.payload import PayloadAlert, Payload
 from unittest import TestCase
+
+from kalyke.payload import Payload, PayloadAlert
 
 
 class TestPayloadAlert(TestCase):
