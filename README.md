@@ -1,6 +1,6 @@
 # kalyke
 
-[![image](https://travis-ci.org/nnsnodnb/kalyke.svg?branch=master)](https://travis-ci.org/nnsnodnb/kalyke)
+![Test](https://github.com/nnsnodnb/kalyke/workflows/Test/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/fb85bcf746e1f4025afa/maintainability)](https://codeclimate.com/github/nnsnodnb/kalyke/maintainability)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9551aa9ca66a47a787e0db53068382b0)](https://app.codacy.com/app/nnsnodnb/kalyke?utm_source=github.com&utm_medium=referral&utm_content=nnsnodnb/kalyke&utm_campaign=Badge_Grade_Dashboard)
 
