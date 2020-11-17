@@ -6,7 +6,7 @@ import time
 import uuid
 from collections import namedtuple
 from contextlib import closing
-from typing import Dict, Optional, List
+from typing import Dict, List, Optional
 
 import jwt
 from hyper import HTTP20Connection
