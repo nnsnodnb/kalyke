@@ -18,7 +18,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.5"
+python = "^3.6"
 cryptography = "~2.6.1"
 pyjwt = "~1.7.1"
 hyper = "~0.7.0"
@@ -29,6 +29,7 @@ pytest = "^6.1.2"
 coverage = "^5.3"
 coveralls = "^2.1.2"
 pytest-cov = "^2.10.1"
+black = "^20.8b1"
 
 [build-system]
 requires = ["poetry>=1.0.5"]
