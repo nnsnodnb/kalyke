@@ -25,7 +25,8 @@ class BadCollapseId(KalykeException):
 
 class BadDeviceToken(KalykeException):
     """
-    The specified device token was bad. Verify that the request contains a valid token and that the token matches the environment.
+    The specified device token was bad.
+     Verify that the request contains a valid token and that the token matches the environment.
     """
 
     pass
@@ -89,7 +90,8 @@ class IdleTimeout(KalykeException):
 
 class MissingDeviceToken(KalykeException):
     """
-    The device token is not specified in the request :path. Verify that the :path header contains the device token.
+    The device token is not specified in the request :path.
+     Verify that the :path header contains the device token.
     """
 
     pass
@@ -97,7 +99,8 @@ class MissingDeviceToken(KalykeException):
 
 class MissingTopic(KalykeException):
     """
-    The apns-topic header of the request was not specified and was required. The apns-topic header is mandatory when the client is connected using a certificate that supports multiple topics.
+    The apns-topic header of the request was not specified and was required.
+     The apns-topic header is mandatory when the client is connected using a certificate that supports multiple topics.
     """
 
     pass
@@ -161,7 +164,8 @@ class InvalidProviderToken(KalykeException):
 
 class MissingProviderToken(KalykeException):
     """
-    No provider certificate was used to connect to APNs and Authorization header was missing or no provider token was specified.
+    No provider certificate was used to connect to APNs
+     and Authorization header was missing or no provider token was specified.
     """
 
     pass
