@@ -37,14 +37,20 @@ class BaseClient(object):
 
     max_notification_size: int = 4 * 1024  # 4096 bytes
 
-    def __init__(self, auth_key_filepath, bundle_id, use_sandbox, force_proto) -> None:
+    def __init__(
+        self, auth_key_filepath: str, bundle_id: str, use_sandbox: bool, force_proto: Optional[str], apns_push_type: str
+    ) -> None:
         if not auth_key_filepath:
             raise ImproperlyConfigured("You must provide a path to a file containing the auth key")
+
+        if self.apns_push_type not in ["alert", "background"]:
+            raise AttributeError("Please choice alert or background")
 
         self.auth_key = self._create_auth_key(auth_key_filepath)
         self.bundle_id = bundle_id
         self.force_proto = force_proto
         self.host = SANDBOX_HOST if use_sandbox else PRODUCTION_HOST
+        self.apns_push_type = apns_push_type
 
     def send_message(self, registration_id, alert, **kwargs) -> bool:
         try:
@@ -57,7 +63,7 @@ class BaseClient(object):
                 loop.close()
             return result
 
-    def send_bulk_message(self, registration_ids, alert, **kwargs):  # type: ignore
+    def send_bulk_message(self, registration_ids: List[str], alert: Payload, **kwargs):  # type: ignore
         success_registration_ids, failure_exceptions = [], []
 
         with closing(self._create_connection()) as connection:
@@ -93,7 +99,9 @@ class BaseClient(object):
         else:
             raise AttributeError
 
-    async def _create_bulk_request_tasks(self, loop, connection, registration_ids, alert, **kwargs) -> List[bool]:
+    async def _create_bulk_request_tasks(
+        self, loop, connection: HTTP20Connection, registration_ids: List[str], alert: Payload, **kwargs
+    ) -> List[bool]:
         identifier = kwargs.get("identifier")
         expiration = kwargs.get("expiration")
         priority = kwargs.get("priority", 10)
@@ -121,15 +129,15 @@ class BaseClient(object):
 
     async def _send_message(
         self,
-        registration_id,
-        alert,
-        identifier=None,
-        expiration=None,
-        priority=10,
-        connection=None,
-        auth_token=None,
-        bundle_id=None,
-        topic=None,
+        registration_id: str,
+        alert: Payload,
+        identifier: Optional[str] = None,
+        expiration: Optional[str] = None,
+        priority: int = 10,
+        connection: HTTP20Connection = None,
+        auth_token: Optional[str] = None,
+        bundle_id: Optional[str] = None,
+        topic: Optional[str] = None,
     ) -> bool:
         if not (topic or bundle_id or self.bundle_id):
             raise ImproperlyConfigured("You must provide your bundle_id if you do not specify a topic")
@@ -145,15 +153,20 @@ class BaseClient(object):
         if not topic:
             topic = bundle_id if bundle_id else self.bundle_id
 
-        headers = {"apns-expiration": str(expiration_time), "apns-priority": str(priority), "apns-topic": topic}
+        headers = {
+            "apns-expiration": str(expiration_time),
+            "apns-priority": str(priority),
+            "apns-topic": topic,
+            "apns-push-type": self.apns_push_type,
+        }
 
         auth_token = auth_token or self._create_token()
         if auth_token:
             headers["authorization"] = "bearer {}".format(auth_token)
 
         if not identifier:
-            identifier = uuid.uuid4()
-        headers["apns-id"] = str(identifier)
+            identifier = str(uuid.uuid4())
+        headers["apns-id"] = identifier
 
         if connection:
             response = await self._send_notification_request(connection, registration_id, json_data, headers)
@@ -194,12 +207,21 @@ class BaseClient(object):
 
 
 class APNsClient(BaseClient):
-    def __init__(self, team_id, auth_key_id, auth_key_filepath, bundle_id, use_sandbox=False, force_proto=None) -> None:
+    def __init__(
+        self,
+        team_id: str,
+        auth_key_id: str,
+        auth_key_filepath: str,
+        bundle_id: str,
+        use_sandbox: bool = False,
+        force_proto: Optional[str] = None,
+        apns_push_type: str = "alert",
+    ) -> None:
         self.team_id = team_id
         self.auth_key_id = auth_key_id
-        super().__init__(auth_key_filepath, bundle_id, use_sandbox, force_proto)
+        super().__init__(auth_key_filepath, bundle_id, use_sandbox, force_proto, apns_push_type)
 
-    def _create_auth_key(self, auth_key_filepath) -> str:
+    def _create_auth_key(self, auth_key_filepath: str) -> str:
         try:
             with open(auth_key_filepath, "r") as f:
                 auth_key = f.read()
@@ -227,12 +249,14 @@ class VoIPClient(BaseClient):
 
     max_notification_size: int = 5 * 1024  # 5120 bytes
 
-    def __init__(self, auth_key_filepath, bundle_id, use_sandbox=False, force_proto="h2") -> None:
+    def __init__(
+        self, auth_key_filepath: str, bundle_id: str, use_sandbox: bool = False, force_proto: str = "h2"
+    ) -> None:
         if not bundle_id.endswith(".voip"):
             bundle_id += ".voip"
-        super().__init__(auth_key_filepath, bundle_id, use_sandbox, force_proto)
+        super().__init__(auth_key_filepath, bundle_id, use_sandbox, force_proto, "voip")
 
-    def _create_auth_key(self, auth_key_filepath) -> str:
+    def _create_auth_key(self, auth_key_filepath: str) -> str:
         return auth_key_filepath
 
     def _create_token(self) -> Optional[str]:
