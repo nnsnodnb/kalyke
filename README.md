@@ -16,7 +16,7 @@ A library for interacting with APNs and VoIP using HTTP/2.
 
 ## Installation
 
-kalyke requires python 3.5 or later.
+kalyke requires python 3.6 or later.
 
 ```bash
 $ pip install kalyke-apns
