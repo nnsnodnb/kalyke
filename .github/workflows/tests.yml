@@ -25,15 +25,15 @@ jobs:
       run: echo ::set-output name=version::$(python -c "import sys; print('-'.join(str(v) for v in sys.version_info))")
 
     - name: Bootstrap poetry
-        shell: bash
-        run: |
-          python -m ensurepip
-          python -m pip install --upgrade pip
-          python -m pip install poetry==1.0.5
+      shell: bash
+      run: |
+        python -m ensurepip
+        python -m pip install --upgrade pip
+        python -m pip install poetry==1.0.5
 
     - name: Configure poetry
-        shell: bash
-        run: python -m poetry config virtualenvs.in-project true
+      shell: bash
+      run: python -m poetry config virtualenvs.in-project true
 
     - name: Set up cache
       uses: actions/cache@v2
