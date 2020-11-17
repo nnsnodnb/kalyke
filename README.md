@@ -3,6 +3,7 @@
 ![Test](https://github.com/nnsnodnb/kalyke/workflows/Test/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/fb85bcf746e1f4025afa/maintainability)](https://codeclimate.com/github/nnsnodnb/kalyke/maintainability)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9551aa9ca66a47a787e0db53068382b0)](https://app.codacy.com/app/nnsnodnb/kalyke?utm_source=github.com&utm_medium=referral&utm_content=nnsnodnb/kalyke&utm_campaign=Badge_Grade_Dashboard)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 [![PyPI Package version](https://badge.fury.io/py/kalyke-apns.svg)](https://pypi.org/project/kalyke-apns)
 [![Python Supported versions](https://img.shields.io/pypi/pyversions/kalyke-apns.svg)](https://pypi.org/project/kalyke-apns)
