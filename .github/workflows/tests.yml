@@ -17,7 +17,8 @@ jobs:
 
     - name: Setup Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
-      with: ${{ matrix.python-version }}
+      with:
+        python-version: ${{ matrix.python-version }}
 
     - name: Get full Python version
       id: full-python-version
