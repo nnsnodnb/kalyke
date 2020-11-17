@@ -6,7 +6,7 @@ import time
 import uuid
 from collections import namedtuple
 from contextlib import closing
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 import jwt
 from hyper import HTTP20Connection
@@ -52,7 +52,7 @@ class BaseClient(object):
         self.host = SANDBOX_HOST if use_sandbox else PRODUCTION_HOST
         self.apns_push_type = apns_push_type
 
-    def send_message(self, registration_id, alert, **kwargs) -> bool:
+    def send_message(self, registration_id: str, alert: Union[Payload, Dict[str, Any]], **kwargs) -> bool:
         try:
             return asyncio.run(self._send_message(registration_id, alert, **kwargs))  # type: ignore
         except AttributeError:
@@ -63,7 +63,9 @@ class BaseClient(object):
                 loop.close()
             return result
 
-    def send_bulk_message(self, registration_ids: List[str], alert: Payload, **kwargs):  # type: ignore
+    def send_bulk_message(  # type: ignore
+        self, registration_ids: List[str], alert: Union[Payload, Dict[str, Any]], **kwargs
+    ):
         success_registration_ids, failure_exceptions = [], []
 
         with closing(self._create_connection()) as connection:
@@ -100,7 +102,12 @@ class BaseClient(object):
             raise AttributeError
 
     async def _create_bulk_request_tasks(
-        self, loop, connection: HTTP20Connection, registration_ids: List[str], alert: Payload, **kwargs
+        self,
+        loop,
+        connection: HTTP20Connection,
+        registration_ids: List[str],
+        alert: Union[Payload, Dict[str, Any]],
+        **kwargs
     ) -> List[bool]:
         identifier = kwargs.get("identifier")
         expiration = kwargs.get("expiration")
@@ -130,7 +137,7 @@ class BaseClient(object):
     async def _send_message(
         self,
         registration_id: str,
-        alert: Payload,
+        alert: Union[Payload, Dict[str, Any]],
         identifier: Optional[str] = None,
         expiration: Optional[str] = None,
         priority: int = 10,
