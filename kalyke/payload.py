@@ -1,19 +1,22 @@
+from typing import Any, Dict, Optional
+
+
 class PayloadAlert(object):
     def __init__(
         self,
-        title=None,
-        title_localized_key=None,
-        title_localized_args=None,
-        subtitle=None,
-        subtitle_loc_key=None,
-        subtitle_loc_args=None,
-        body=None,
-        body_localized_key=None,
-        body_localized_args=None,
-        action_localized_key=None,
-        action=None,
-        launch_image=None,
-    ):
+        title: Optional[str] = None,
+        title_localized_key: Optional[str] = None,
+        title_localized_args: Optional[str] = None,
+        subtitle: Optional[str] = None,
+        subtitle_loc_key: Optional[str] = None,
+        subtitle_loc_args: Optional[str] = None,
+        body: Optional[str] = None,
+        body_localized_key: Optional[str] = None,
+        body_localized_args: Optional[str] = None,
+        action_localized_key: Optional[str] = None,
+        action: Optional[str] = None,
+        launch_image: Optional[str] = None,
+    ) -> None:
         self.title = title
         self.title_localized_key = title_localized_key
         self.title_localized_args = title_localized_args
@@ -27,7 +30,7 @@ class PayloadAlert(object):
         self.action = action
         self.launch_image = launch_image
 
-    def dict(self):
+    def dict(self) -> Dict[str, str]:
         result = {}
 
         if self.title:
@@ -65,16 +68,16 @@ class PayloadAlert(object):
 class Payload(object):
     def __init__(
         self,
-        alert=None,
-        badge=None,
-        sound=None,
-        content_available=False,
-        mutable_content=False,
-        category=None,
-        url_args=None,
-        custom=None,
-        thread_id=None,
-    ):
+        alert: Optional[str] = None,
+        badge: Optional[str] = None,
+        sound: Optional[str] = None,
+        content_available: bool = False,
+        mutable_content: bool = False,
+        category: Optional[str] = None,
+        url_args: Optional[str] = None,
+        custom: Optional[Dict[str, str]] = None,
+        thread_id: Optional[str] = None,
+    ) -> None:
         self.alert = alert
         self.badge = badge
         self.sound = sound
@@ -85,8 +88,9 @@ class Payload(object):
         self.mutable_content = mutable_content
         self.thread_id = thread_id
 
-    def dict(self):
-        result = {"aps": {}}
+    def dict(self) -> Dict[str, Any]:
+        result: Dict[str, Any] = {"aps": {}}
+
         if self.alert is not None:
             if isinstance(self.alert, PayloadAlert):
                 result["aps"]["alert"] = self.alert.dict()
