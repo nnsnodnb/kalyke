@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 
 class PayloadAlert(object):
@@ -68,8 +68,8 @@ class PayloadAlert(object):
 class Payload(object):
     def __init__(
         self,
-        alert: Optional[str] = None,
-        badge: Optional[str] = None,
+        alert: Union[Optional[str], PayloadAlert] = None,
+        badge: Optional[int] = None,
         sound: Optional[str] = None,
         content_available: bool = False,
         mutable_content: bool = False,

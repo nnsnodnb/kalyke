@@ -1,21 +1,31 @@
+import uuid
+
 import pytest
-from typing import Dict
-
-from kalyke.client import PRODUCTION_HOST, SANDBOX_HOST
-
-
-@pytest.fixture()
-def mock_response() -> Dict[str, str]:
-    return {"apns-id": "eabeae54-14a8-11e5-b60b-1697f925ec7b"}
+from kalyke.client import APNsClient, HTTP20Connection
+from hyper.http20.response import HTTP20Response
 
 
 @pytest.fixture()
-def requests_mock_sandbox(requests_mock, mock_response) -> None:
-    requests_mock.post(SANDBOX_HOST.replace(":443", ""), mock_response)
+def mock_create_auth_key(mocker) -> None:
+    mocked = mocker.Mock(return_value="dummy_auth_key_secret")
+    mocker.patch.object(APNsClient, "_create_auth_key", mocked)
     yield
+    assert mocked.called
 
 
 @pytest.fixture()
-def requests_mock_production(requests_mock, mock_response) -> None:
-    requests_mock.post(PRODUCTION_HOST.replace(":443", ""), mock_response)
+def mock_create_token(mocker) -> None:
+    mocked = mocker.Mock(return_value="dummy_jwt_token")
+    mocker.patch.object(APNsClient, "_create_token", mocked)
     yield
+    assert mocked.called
+
+
+@pytest.fixture()
+def mock_get_response(mocker) -> None:
+    mocked = mocker.Mock(
+        return_value=HTTP20Response(headers={b":status": ("200",), b":apns-id": (str(uuid.uuid4()))}, stream="stream")
+    )
+    mocker.patch.object(HTTP20Connection, "get_response", mocked)
+    yield
+    assert mocked.called
