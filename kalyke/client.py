@@ -247,7 +247,7 @@ class APNsClient(BaseClient):
                 "kid": self.auth_key_id,
             },
         )
-        return token.decode("ascii")
+        return token
 
     def _create_connection(self) -> HTTP20Connection:
         return HTTP20Connection(self.host, force_proto=self.force_proto)
