@@ -61,6 +61,7 @@ class TestPayload(TestCase):
             category="notification_category",
             url_args="url_arguments",
             interruption_level="passive",
+            relevance_score=1,
             custom=custom,
         )
         result = payload.dict()
@@ -75,6 +76,7 @@ class TestPayload(TestCase):
         self.assertEqual(result["aps"]["category"], "notification_category")
         self.assertEqual(result["aps"]["url-args"], "url_arguments")
         self.assertEqual(result["aps"]["interruption-level"], "passive")
+        self.assertEqual(result["aps"]["relevance-score"], 1)
         self.assertEqual(result["custom_key"], "custom value")
 
     def test_error_payload_for_invalid_interruption_level(self):
@@ -86,4 +88,15 @@ class TestPayload(TestCase):
             "Invalid value for interruption_level.\n"
             "Please choice from passive, active, time-sensitive or critical.\n"
             "https://developer.apple.com/documentation/usernotifications/unnotificationinterruptionlevel",
+        )
+
+    def test_error_payload_invalid_relevance_score(self):
+        with self.assertRaises(ValueError) as e:
+            _ = Payload(relevance_score=2)
+
+        self.assertEqual(
+            e.exception.args[0],
+            "Invalid value for relevance_score.\n"
+            "a value between 0\n"
+            "https://developer.apple.com/documentation/usernotifications/unnotificationcontent/3821031-relevancescore",
         )

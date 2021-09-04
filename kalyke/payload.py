@@ -75,6 +75,7 @@ class Payload(object):
         custom=None,
         thread_id=None,
         interruption_level=None,
+        relevance_score=None,
     ):
         self.alert = alert
         self.badge = badge
@@ -98,6 +99,18 @@ class Payload(object):
                 "https://developer.apple.com/documentation/usernotifications/unnotificationinterruptionlevel"
             )
         self.interruption_level = interruption_level
+        # This key is beta feature for iOS15+.
+        if relevance_score is None:
+            self.relevance_score = None
+        elif (isinstance(relevance_score, int) or isinstance(relevance_score, float)) and 0 <= relevance_score <= 1:
+            self.relevance_score = relevance_score
+        else:
+            raise ValueError(
+                "Invalid value for relevance_score.\n"
+                "a value between 0\n"
+                "https://developer.apple.com/documentation/usernotifications/unnotificationcontent/"
+                "3821031-relevancescore"
+            )
 
     def dict(self):
         result = {"aps": {}}
@@ -122,6 +135,8 @@ class Payload(object):
             result["aps"]["url-args"] = self.url_args
         if self.interruption_level is not None:
             result["aps"]["interruption-level"] = self.interruption_level
+        if self.relevance_score is not None:
+            result["aps"]["relevance-score"] = self.relevance_score
         if self.custom is not None:
             result.update(self.custom)
 
