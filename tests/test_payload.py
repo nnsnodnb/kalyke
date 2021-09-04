@@ -60,6 +60,7 @@ class TestPayload(TestCase):
             thread_id="this_is_thread_identifier",
             category="notification_category",
             url_args="url_arguments",
+            interruption_level="passive",
             custom=custom,
         )
         result = payload.dict()
@@ -73,4 +74,16 @@ class TestPayload(TestCase):
         self.assertEqual(result["aps"]["thread-id"], "this_is_thread_identifier")
         self.assertEqual(result["aps"]["category"], "notification_category")
         self.assertEqual(result["aps"]["url-args"], "url_arguments")
+        self.assertEqual(result["aps"]["interruption-level"], "passive")
         self.assertEqual(result["custom_key"], "custom value")
+
+    def test_error_payload_for_invalid_interruption_level(self):
+        with self.assertRaises(ValueError) as e:
+            _ = Payload(interruption_level="invalid")
+
+        self.assertEqual(
+            e.exception.args[0],
+            "Invalid value for interruption_level.\n"
+            "Please choice from passive, active, time-sensitive or critical.\n"
+            "https://developer.apple.com/documentation/usernotifications/unnotificationinterruptionlevel",
+        )
