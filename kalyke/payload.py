@@ -74,6 +74,7 @@ class Payload(object):
         url_args=None,
         custom=None,
         thread_id=None,
+        interruption_level=None,
     ):
         self.alert = alert
         self.badge = badge
@@ -84,6 +85,19 @@ class Payload(object):
         self.custom = custom
         self.mutable_content = mutable_content
         self.thread_id = thread_id
+        # This key is beta feature for iOS15+.
+        if interruption_level is not None and interruption_level not in [
+            "passive",
+            "active",
+            "time-sensitive",
+            "critical",
+        ]:
+            raise ValueError(
+                "Invalid value for interruption_level.\n"
+                "Please choice from passive, active, time-sensitive or critical.\n"
+                "https://developer.apple.com/documentation/usernotifications/unnotificationinterruptionlevel"
+            )
+        self.interruption_level = interruption_level
 
     def dict(self):
         result = {"aps": {}}
@@ -106,6 +120,8 @@ class Payload(object):
             result["aps"]["category"] = self.category
         if self.url_args is not None:
             result["aps"]["url-args"] = self.url_args
+        if self.interruption_level is not None:
+            result["aps"]["interruption-level"] = self.interruption_level
         if self.custom is not None:
             result.update(self.custom)
 
