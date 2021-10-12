@@ -21,7 +21,7 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.6"
 cryptography = ">=2.6.1,<35.1.0"
-pyjwt = ">=1.7.1,<2.2.0"
+pyjwt = ">=1.7.1,<2.3.0"
 hyper = "~0.7.0"
 
 [tool.poetry.dev-dependencies]
