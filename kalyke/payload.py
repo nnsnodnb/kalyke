@@ -86,7 +86,6 @@ class Payload(object):
         self.custom = custom
         self.mutable_content = mutable_content
         self.thread_id = thread_id
-        # This key is beta feature for iOS15+.
         if interruption_level is not None and interruption_level not in [
             "passive",
             "active",
@@ -99,7 +98,6 @@ class Payload(object):
                 "https://developer.apple.com/documentation/usernotifications/unnotificationinterruptionlevel"
             )
         self.interruption_level = interruption_level
-        # This key is beta feature for iOS15+.
         if relevance_score is None:
             self.relevance_score = None
         elif (isinstance(relevance_score, int) or isinstance(relevance_score, float)) and 0 <= relevance_score <= 1:
