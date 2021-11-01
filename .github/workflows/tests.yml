@@ -60,4 +60,22 @@ jobs:
       run: |
         python -m poetry run python -m pytest -v tests
         python -m poetry run coverage report
-        python -m poetry run coveralls
+    - name: Upload coverage data to coveralls.io
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_FLAG_NAME: ${{ matrix.python-version }}
+        COVERALLS_PARALLEL: true
+      run: python -m poetry run coveralls --service=github
+
+  coveralls:
+    name: Indicate completion to coveralls.io
+    needs: tests
+    runs-on: ubuntu-latest
+    container: python:3-slim
+    steps:
+    - name: Finished
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        pip3 install -U coveralls
+        coveralls --service=github --finish
