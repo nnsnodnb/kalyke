@@ -1,11 +1,11 @@
 from unittest import TestCase
 
-from kalyke.payload import Payload, PayloadAlert
+from kalyke.payload import Payload, Alert
 
 
-class TestPayloadAlert(TestCase):
+class TestAlert(TestCase):
     def test_representation(self):
-        alert = PayloadAlert(
+        alert = Alert(
             title="this is title",
             title_localized_key="title_key",
             title_localized_args="title_args",
@@ -49,7 +49,7 @@ class TestPayload(TestCase):
         self.assertEqual(result["aps"]["sound"], "default")
 
     def test_representation_with_payload_alert(self):
-        alert = PayloadAlert(title="this is title", body="this is body")
+        alert = Alert(title="this is title", body="this is body")
         custom = {"custom_key": "custom value"}
         payload = Payload(
             alert=alert,
@@ -59,7 +59,6 @@ class TestPayload(TestCase):
             mutable_content=True,
             thread_id="this_is_thread_identifier",
             category="notification_category",
-            url_args="url_arguments",
             interruption_level="passive",
             relevance_score=1,
             custom=custom,
@@ -74,7 +73,6 @@ class TestPayload(TestCase):
         self.assertEqual(result["aps"]["mutable-content"], 1)
         self.assertEqual(result["aps"]["thread-id"], "this_is_thread_identifier")
         self.assertEqual(result["aps"]["category"], "notification_category")
-        self.assertEqual(result["aps"]["url-args"], "url_arguments")
         self.assertEqual(result["aps"]["interruption-level"], "passive")
         self.assertEqual(result["aps"]["relevance-score"], 1)
         self.assertEqual(result["custom_key"], "custom value")

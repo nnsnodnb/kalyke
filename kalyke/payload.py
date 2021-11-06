@@ -1,19 +1,22 @@
-class PayloadAlert(object):
+from typing import Any, Dict, Optional, Union
+
+
+class Alert(object):
     def __init__(
         self,
-        title=None,
-        title_localized_key=None,
-        title_localized_args=None,
-        subtitle=None,
-        subtitle_loc_key=None,
-        subtitle_loc_args=None,
-        body=None,
-        body_localized_key=None,
-        body_localized_args=None,
-        action_localized_key=None,
-        action=None,
-        launch_image=None,
-    ):
+        title: Optional[str] = None,
+        title_localized_key: Optional[str] = None,
+        title_localized_args: Optional[str] = None,
+        subtitle: Optional[str] = None,
+        subtitle_loc_key: Optional[str] = None,
+        subtitle_loc_args: Optional[str] = None,
+        body: Optional[str] = None,
+        body_localized_key: Optional[str] = None,
+        body_localized_args: Optional[str] = None,
+        action_localized_key: Optional[str] = None,
+        action: Optional[str] = None,
+        launch_image: Optional[str] = None,
+    ) -> None:
         self.title = title
         self.title_localized_key = title_localized_key
         self.title_localized_args = title_localized_args
@@ -27,7 +30,7 @@ class PayloadAlert(object):
         self.action = action
         self.launch_image = launch_image
 
-    def dict(self):
+    def dict(self) -> Dict[str, Any]:
         result = {}
 
         if self.title:
@@ -62,30 +65,51 @@ class PayloadAlert(object):
         return result
 
 
+class Sound(object):
+    def __init__(self, critical: int = 1, name: str = "default", volume: int = 1) -> None:
+        self.critical = critical
+        self.name = name
+        if 0 <= volume <= 1:
+            self.volume = volume
+        else:
+            raise ValueError(
+                "The volume for the critical alert’s sound.\n"
+                "Set this to a value between 0 (silent) and 1 (full volume).\n"
+                "https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/"
+                "generating_a_remote_notification#2990112"
+            )
+
+    def dict(self) -> Dict[str, Any]:
+        return {
+            "critical": self.critical,
+            "name": self.name,
+            "volume": self.volume,
+        }
+
+
 class Payload(object):
     def __init__(
         self,
-        alert=None,
-        badge=None,
-        sound=None,
-        content_available=False,
-        mutable_content=False,
-        category=None,
-        url_args=None,
-        custom=None,
-        thread_id=None,
-        interruption_level=None,
-        relevance_score=None,
-    ):
+        alert: Union[Optional[str], Optional[Alert]] = None,
+        badge: Optional[int] = None,
+        sound: Union[Optional[str], Optional[Sound]] = None,
+        content_available: Optional[bool] = False,
+        mutable_content: Optional[bool] = False,
+        category: Optional[str] = None,
+        thread_id: Optional[str] = None,
+        target_content_id: Optional[str] = None,
+        interruption_level: Optional[str] = None,
+        relevance_score: Optional[float] = None,
+        custom: Optional[Dict[str, Any]] = None,
+    ) -> None:
         self.alert = alert
         self.badge = badge
         self.sound = sound
         self.content_available = content_available
         self.category = category
-        self.url_args = url_args
-        self.custom = custom
         self.mutable_content = mutable_content
         self.thread_id = thread_id
+        self.target_content_id = target_content_id
         if interruption_level is not None and interruption_level not in [
             "passive",
             "active",
@@ -109,18 +133,16 @@ class Payload(object):
                 "https://developer.apple.com/documentation/usernotifications/unnotificationcontent/"
                 "3821031-relevancescore"
             )
+        self.custom = custom
 
     def dict(self):
         result = {"aps": {}}
         if self.alert is not None:
-            if isinstance(self.alert, PayloadAlert):
-                result["aps"]["alert"] = self.alert.dict()
-            else:
-                result["aps"]["alert"] = self.alert
+            result["aps"]["alert"] = self.alert.dict() if isinstance(self.alert, Alert) else self.alert
         if self.badge is not None:
             result["aps"]["badge"] = self.badge
         if self.sound is not None:
-            result["aps"]["sound"] = self.sound
+            result["aps"]["sound"] = self.sound.dict() if isinstance(self.sound, Sound) else self.sound
         if self.content_available:
             result["aps"]["content-available"] = 1
         if self.mutable_content:
@@ -129,8 +151,6 @@ class Payload(object):
             result["aps"]["thread-id"] = self.thread_id
         if self.category is not None:
             result["aps"]["category"] = self.category
-        if self.url_args is not None:
-            result["aps"]["url-args"] = self.url_args
         if self.interruption_level is not None:
             result["aps"]["interruption-level"] = self.interruption_level
         if self.relevance_score is not None:
