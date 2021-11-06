@@ -23,6 +23,7 @@ python = "^3.6"
 cryptography = ">=2.6.1,<35.1.0"
 pyjwt = ">=1.7.1,<2.4.0"
 hyper = "~0.7.0"
+httpx = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
 ipython = "^7.16.1"
