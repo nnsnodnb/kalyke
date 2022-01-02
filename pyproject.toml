@@ -25,7 +25,7 @@ pyjwt = ">=1.7.1,<2.4.0"
 hyper = "~0.7.0"
 
 [tool.poetry.dev-dependencies]
-ipython = "^7.16.1"
+ipython = "^7.16.2"
 pytest = "^6.2.5"
 coverage = "^5.5"
 coveralls = "^3.3.1"
