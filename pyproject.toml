@@ -26,7 +26,7 @@ hyper = "~0.7.0"
 
 [tool.poetry.dev-dependencies]
 ipython = "^7.16.3"
-pytest = "^6.2.5"
+pytest = "^7.0.0"
 coverage = "^6.2"
 coveralls = "^3.3.1"
 pytest-cov = "^3.0.0"
