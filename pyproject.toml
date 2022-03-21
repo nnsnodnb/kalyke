@@ -33,7 +33,7 @@ pytest-cov = "^3.0.0"
 black = "^20.8b1"
 isort = "^5.8.0"
 flake8 = "^4.0.1"
-mypy = "^0.931"
+mypy = "^0.941"
 
 [tool.black]
 line-length = 120
