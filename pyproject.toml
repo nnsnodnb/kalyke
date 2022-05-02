@@ -20,7 +20,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.6"
-cryptography = ">=2.6.1,<36.1.0"
+cryptography = ">=2.6.1,<37.1.0"
 pyjwt = ">=1.7.1,<2.4.0"
 hyper = "~0.7.0"
 
