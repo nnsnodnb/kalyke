@@ -59,11 +59,19 @@ class Payload:
     def dict(self) -> Dict[str, Any]:
         payload: Dict[str, Any] = {}
         if self.alert:
-            payload["alert"] = self.alert.dict() if isinstance(self.alert, PayloadAlert) else self.alert
+            payload["alert"] = (
+                self.alert.dict()
+                if isinstance(self.alert, PayloadAlert)
+                else self.alert
+            )
         if self.badge:
             payload["badge"] = self.badge
         if self.sound:
-            payload["sound"] = self.sound.dict() if isinstance(self.sound, CriticalSound) else self.sound
+            payload["sound"] = (
+                self.sound.dict()
+                if isinstance(self.sound, CriticalSound)
+                else self.sound
+            )
         if self.thread_id:
             payload["thread-id"] = self.thread_id
         if self.category:

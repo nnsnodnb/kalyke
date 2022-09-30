@@ -26,9 +26,7 @@ class CriticalSound:
         return bool(self._critical)
 
     def dict(self) -> Dict[str, Union[str, float]]:
-        sound: Dict[str, Union[str, float]] = {
-            "critical": self._critical
-        }
+        sound: Dict[str, Union[str, float]] = {"critical": self._critical}
         if self.name:
             sound["name"] = self.name
         if self.volume:
