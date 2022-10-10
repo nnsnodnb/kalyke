@@ -18,6 +18,7 @@ class Payload:
     interruption_level: InterruptionLevel
     relevance_score: Optional[float]
     filter_criteria: Optional[str]
+    custom: Optional[Dict[str, Any]]
 
     def __init__(
         self,
@@ -32,6 +33,7 @@ class Payload:
         interruption_level: InterruptionLevel = InterruptionLevel.ACTIVE,
         relevance_score: Optional[float] = None,
         filter_criteria: Optional[str] = None,
+        custom: Optional[Dict[str, Any]] = None,
     ) -> None:
         self.alert = alert
         self.badge = badge
@@ -42,11 +44,15 @@ class Payload:
         self._mutable_content = int(mutable_content)
         self.target_content_identifier = target_content_identifier
         self.interruption_level = interruption_level
-        if 0.0 <= relevance_score <= 1.0:
-            self.relevance_score = relevance_score
+        if relevance_score:
+            if 0.0 <= relevance_score <= 1.0:
+                self.relevance_score = relevance_score
+            else:
+                raise RelevanceScoreOutOfRangeException(relevance_score=relevance_score)
         else:
-            raise RelevanceScoreOutOfRangeException(relevance_score=relevance_score)
+            self.relevance_score = relevance_score
         self.filter_criteria = filter_criteria
+        self.custom = custom
 
     @property
     def content_available(self) -> bool:
@@ -57,33 +63,26 @@ class Payload:
         return bool(self._mutable_content)
 
     def dict(self) -> Dict[str, Any]:
-        payload: Dict[str, Any] = {}
-        if self.alert:
-            payload["alert"] = (
-                self.alert.dict()
-                if isinstance(self.alert, PayloadAlert)
-                else self.alert
-            )
-        if self.badge:
-            payload["badge"] = self.badge
-        if self.sound:
-            payload["sound"] = (
-                self.sound.dict()
-                if isinstance(self.sound, CriticalSound)
-                else self.sound
-            )
-        if self.thread_id:
-            payload["thread-id"] = self.thread_id
-        if self.category:
-            payload["category"] = self.category
-        payload["content-available"] = self._content_available
-        payload["mutable-content"] = self._mutable_content
-        if self.target_content_identifier:
-            payload["target-content-identifier"] = self.target_content_identifier
-        payload["interruption-level"] = self.interruption_level.value
-        if self.relevance_score:
-            payload["relevance-score"] = self.relevance_score
-        if self.filter_criteria:
-            payload["filter-criteria"] = self.filter_criteria
+        aps = {
+            "alert": self.alert.dict()
+            if isinstance(self.alert, PayloadAlert)
+            else self.alert,
+            "badge": self.badge,
+            "sound": self.sound,
+            "thread-id": self.thread_id,
+            "category": self.category,
+            "content-available": self._content_available,
+            "mutable-content": self._mutable_content,
+            "target-content-identifier": self.target_content_identifier,
+            "interruption-level": self.interruption_level.value,
+            "relevance-score": self.relevance_score,
+            "filter-criteria": self.filter_criteria,
+        }
+        aps = {k: v for k, v in aps.items() if v is not None}
+        payload = {
+            "aps": aps,
+        }
+        if self.custom:
+            payload.update(self.custom)
 
         return payload
