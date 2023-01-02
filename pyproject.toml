@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.7"
 httpx = {extras = ["http2"], version = "^0.23.0"}
-PyJWT = "^2.4.0"
+PyJWT = "^2.6.0"
 cryptography = "^39.0.0"
 
 [tool.poetry.group.dev.dependencies]
