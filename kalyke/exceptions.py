@@ -5,9 +5,7 @@ class VolumeOutOfRangeException(Exception):
         self._volume = volume
 
     def __str__(self) -> str:
-        return (
-            f"The volume must be a value between 0.0 and 1.0. Did set {self._volume}."
-        )
+        return f"The volume must be a value between 0.0 and 1.0. Did set {self._volume}."
 
 
 class RelevanceScoreOutOfRangeException(Exception):
@@ -36,7 +34,8 @@ class BadCollapseId(ApnsProviderException):
 
 class BadDeviceToken(ApnsProviderException):
     """
-    The specified device token is invalid. Verify that the request contains a valid token and that the token matches the environment.
+    The specified device token is invalid. Verify that the request contains a valid token and that the token matches
+     the environment.
     """
 
     pass
@@ -116,7 +115,8 @@ class MissingDeviceToken(ApnsProviderException):
 
 class MissingTopic(ApnsProviderException):
     """
-    The apns-topic header of the request isn’t specified and is required. The apns-topic header is mandatory when the client is connected using a certificate that supports multiple topics.
+    The apns-topic header of the request isn’t specified and is required. The apns-topic header is mandatory when
+     the client is connected using a certificate that supports multiple topics.
     """
 
     pass
@@ -180,7 +180,8 @@ class InvalidProviderToken(ApnsProviderException):
 
 class MissingProviderToken(ApnsProviderException):
     """
-    No provider certificate was used to connect to APNs, and the authorization header is missing or no provider token is specified.
+    No provider certificate was used to connect to APNs, and the authorization header is missing or
+     no provider token is specified.
     """
 
     pass
@@ -204,7 +205,10 @@ class MethodNotAllowed(ApnsProviderException):
 
 class Unregistered(ApnsProviderException):
     """
-    The device token is inactive for the specified topic. There is no need to send further pushes to the same device token, unless your application retrieves the same device token, see Registering Your App with APNs (https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns)
+    The device token is inactive for the specified topic.
+     There is no need to send further pushes to the same device token,
+     unless your application retrieves the same device token, see Registering Your App with APNs.
+     (https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns)
     """
 
     pass
@@ -212,7 +216,9 @@ class Unregistered(ApnsProviderException):
 
 class PayloadTooLarge(ApnsProviderException):
     """
-    The message payload is too large. For information about the allowed payload size, see Create and Send a POST Request to APNs. (https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns#2947607)
+    The message payload is too large. For information about the allowed payload size, see Create and Send a POST Request
+     to APNs.
+     (https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns#2947607)
     """
 
     pass
@@ -220,7 +226,8 @@ class PayloadTooLarge(ApnsProviderException):
 
 class TooManyProviderTokenUpdates(ApnsProviderException):
     """
-    The provider’s authentication token is being updated too often. Update the authentication token no more than once every 20 minutes.
+    The provider’s authentication token is being updated too often. Update the authentication token
+     no more than once every 20 minutes.
     """
 
     pass

@@ -1,8 +1,6 @@
 import asyncio
 
-from kalyke.clients.apns import ApnsClient
-from kalyke.models import ApnsConfig, Payload, PayloadAlert
-
+from kalyke import ApnsClient, ApnsConfig, Payload, PayloadAlert
 
 client = ApnsClient(
     use_sandbox=True,
@@ -19,9 +17,7 @@ payload_alert = PayloadAlert(title="YOUR TITLE", body="YOUR BODY")
 payload = Payload(alert=payload_alert, badge=1, sound="default")
 config = ApnsConfig(topic="com.example.App")
 
-asyncio.run(
-    client.send_message(device_token=registration_id, payload=payload, apns_config=config)
-)
+asyncio.run(client.send_message(device_token=registration_id, payload=payload, apns_config=config))
 
 # Send multiple push notifications
 registration_ids = [

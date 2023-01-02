@@ -1,9 +1,9 @@
 from typing import Any, Dict, Optional, Union
 
+from ..exceptions import RelevanceScoreOutOfRangeException
 from .critical_sound import CriticalSound
 from .interruption_level import InterruptionLevel
 from .payload_alert import PayloadAlert
-from ..exceptions import RelevanceScoreOutOfRangeException
 
 
 class Payload:
@@ -64,9 +64,7 @@ class Payload:
 
     def dict(self) -> Dict[str, Any]:
         aps = {
-            "alert": self.alert.dict()
-            if isinstance(self.alert, PayloadAlert)
-            else self.alert,
+            "alert": self.alert.dict() if isinstance(self.alert, PayloadAlert) else self.alert,
             "badge": self.badge,
             "sound": self.sound,
             "thread-id": self.thread_id,

@@ -1,6 +1,5 @@
 import time
 import uuid
-
 from typing import Dict, Optional
 
 import httpx
@@ -33,9 +32,7 @@ class ApnsConfig:
             self.identifier = identifier
         else:
             self.identifier = None
-        self.expiration = (
-            expiration if expiration is not None else int(time.time()) + 2592000
-        )
+        self.expiration = expiration if expiration is not None else int(time.time()) + 2592000
         self.priority = ApnsPriority(priority).value
         self.collapse_id = collapse_id
 
@@ -46,7 +43,7 @@ class ApnsConfig:
         except ValueError:
             raise ValueError(f"{identifier} is invalid format.")
         if identifier != str(uuid_obj):
-            raise ValueError(f"Please check your identifier.")
+            raise ValueError("Please check your identifier.")
 
     def make_headers(self) -> Dict[str, str]:
         headers = {
