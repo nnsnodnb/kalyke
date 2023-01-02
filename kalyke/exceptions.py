@@ -1,21 +1,36 @@
-class KalykeException(Exception):
-    def __str__(self):
-        return "{}: {}".format(self.__class__.__name__, self.__doc__)
+from typing import Any, Dict
 
 
-class ImproperlyConfigured(KalykeException):
-    pass
+class VolumeOutOfRangeException(Exception):
+    _volume: float
+
+    def __init__(self, volume: float) -> None:
+        self._volume = volume
+
+    def __str__(self) -> str:
+        return f"The volume must be a value between 0.0 and 1.0. Did set {self._volume}."
 
 
-class PayloadTooLarge(KalykeException):
-    """
-    The message payload was too large. See Creation the Remote Notification Payload for details on maximum payload size.
-    """
+class RelevanceScoreOutOfRangeException(Exception):
+    _relevance_score: float
 
-    pass
+    def __init__(self, relevance_score: float) -> None:
+        self._relevance_score = relevance_score
+
+    def __str__(self) -> str:
+        return f"The system uses the relevance_score, a value between 0 and 1. Did set {self._relevance_score}."
 
 
-class BadCollapseId(KalykeException):
+# https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/handling_notification_responses_from_apns#3394535
+class ApnsProviderException(Exception):
+    def __init__(self, error: Dict[str, Any]) -> None:
+        self.error = error
+
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__}: {self.__doc__}"
+
+
+class BadCollapseId(ApnsProviderException):
     """
     The collapse identifier exceeds the maximum allowed size.
     """
@@ -23,98 +38,105 @@ class BadCollapseId(KalykeException):
     pass
 
 
-class BadDeviceToken(KalykeException):
+class BadDeviceToken(ApnsProviderException):
     """
-    The specified device token was bad.
-     Verify that the request contains a valid token and that the token matches the environment.
-    """
-
-    pass
-
-
-class BadExpirationDate(KalykeException):
-    """
-    The apns-expiration value is bad.
+    The specified device token is invalid. Verify that the request contains a valid token and that the token matches
+     the environment.
     """
 
     pass
 
 
-class BadMessageId(KalykeException):
+class BadExpirationDate(ApnsProviderException):
     """
-    The apns-id value is bad.
-    """
-
-    pass
-
-
-class BadPriority(KalykeException):
-    """
-    The apns-priority value is bad.
+    The apns-expiration value is invalid.
     """
 
     pass
 
 
-class BadTopic(KalykeException):
+class BadMessageId(ApnsProviderException):
     """
-    The apns-topic was invalid.
-    """
-
-    pass
-
-
-class DeviceTokenNotForTopic(KalykeException):
-    """
-    The device token does not match the specified topic.
+    The apns-id value is invalid.
     """
 
     pass
 
 
-class DuplicateHeaders(KalykeException):
+class BadPriority(ApnsProviderException):
     """
-    One or more headers were repeated.
-    """
-
-    pass
-
-
-class IdleTimeout(KalykeException):
-    """
-    Idle time out.
+    The apns-priority value is invalid.
     """
 
     pass
 
 
-class MissingDeviceToken(KalykeException):
+class BadTopic(ApnsProviderException):
     """
-    The device token is not specified in the request :path.
-     Verify that the :path header contains the device token.
-    """
-
-    pass
-
-
-class MissingTopic(KalykeException):
-    """
-    The apns-topic header of the request was not specified and was required.
-     The apns-topic header is mandatory when the client is connected using a certificate that supports multiple topics.
+    The apns-topic value is invalid.
     """
 
     pass
 
 
-class PayloadEmpty(KalykeException):
+class DeviceTokenNotForTopic(ApnsProviderException):
     """
-    The message payload was empty.
+    The device token doesn’t match the specified topic.
     """
 
     pass
 
 
-class TopicDisallowed(KalykeException):
+class DuplicateHeaders(ApnsProviderException):
+    """
+    One or more headers are repeated.
+    """
+
+    pass
+
+
+class IdleTimeout(ApnsProviderException):
+    """
+    Idle timeout.
+    """
+
+    pass
+
+
+class InvalidPushType(ApnsProviderException):
+    """
+    The apns-push-type value is invalid.
+    """
+
+    pass
+
+
+class MissingDeviceToken(ApnsProviderException):
+    """
+    The device token isn’t specified in the request :path. Verify that the :path header contains the device token.
+    """
+
+    pass
+
+
+class MissingTopic(ApnsProviderException):
+    """
+    The apns-topic header of the request isn’t specified and is required. The apns-topic header is mandatory when
+     the client is connected using a certificate that supports multiple topics.
+    """
+
+    pass
+
+
+class PayloadEmpty(ApnsProviderException):
+    """
+    The message payload is empty.
+    """
+
+    pass
+
+
+class TopicDisallowed(ApnsProviderException):
     """
     Pushing to this topic is not allowed.
     """
@@ -122,23 +144,23 @@ class TopicDisallowed(KalykeException):
     pass
 
 
-class BadCertificate(KalykeException):
+class BadCertificate(ApnsProviderException):
     """
-    The certificate was bad.
-    """
-
-    pass
-
-
-class BadCertificateEnvironment(KalykeException):
-    """
-    The client certificate was for the wrong environment.
+    The certificate is invalid.
     """
 
     pass
 
 
-class ExpiredProviderToken(KalykeException):
+class BadCertificateEnvironment(ApnsProviderException):
+    """
+    The client certificate is for the wrong environment.
+    """
+
+    pass
+
+
+class ExpiredProviderToken(ApnsProviderException):
     """
     The provider token is stale and a new token should be generated.
     """
@@ -146,7 +168,7 @@ class ExpiredProviderToken(KalykeException):
     pass
 
 
-class Forbidden(KalykeException):
+class Forbidden(ApnsProviderException):
     """
     The specified action is not allowed.
     """
@@ -154,56 +176,78 @@ class Forbidden(KalykeException):
     pass
 
 
-class InvalidProviderToken(KalykeException):
+class InvalidProviderToken(ApnsProviderException):
     """
-    The provider token is not valid or the token signature could not be verified.
-    """
-
-    pass
-
-
-class MissingProviderToken(KalykeException):
-    """
-    No provider certificate was used to connect to APNs
-     and Authorization header was missing or no provider token was specified.
+    The provider token is not valid, or the token signature can't be verified.
     """
 
     pass
 
 
-class BadPath(KalykeException):
+class MissingProviderToken(ApnsProviderException):
     """
-    The request contained a bad :path value.
-    """
-
-    pass
-
-
-class MethodNotAllowed(KalykeException):
-    """
-    The specified :method was not POST.
+    No provider certificate was used to connect to APNs, and the authorization header is missing or
+     no provider token is specified.
     """
 
     pass
 
 
-class Unregistered(KalykeException):
+class BadPath(ApnsProviderException):
     """
-    The device token is inactive for the specified topic. Expected HTTP/2 status code is 410; see Table 8-4.
-    """
-
-    pass
-
-
-class TooManyProviderTokenUpdates(KalykeException):
-    """
-    The provider token is being updated too often.
+    The request contained an invalid :path value.
     """
 
     pass
 
 
-class TooManyRequests(KalykeException):
+class MethodNotAllowed(ApnsProviderException):
+    """
+    The specified :method value isn’t POST.
+    """
+
+    pass
+
+
+class ExpiredToken(ApnsProviderException):
+    """
+    The device token has expired.
+    """
+
+    pass
+
+
+class Unregistered(ApnsProviderException):
+    """
+    The device token is inactive for the specified topic.
+     There is no need to send further pushes to the same device token,
+     unless your application retrieves the same device token, see Registering Your App with APNs.
+     (https://developer.apple.com/documentation/usernotifications/registering_your_app_with_apns)
+    """
+
+    pass
+
+
+class PayloadTooLarge(ApnsProviderException):
+    """
+    The message payload is too large. For information about the allowed payload size, see Create and Send a POST Request
+     to APNs.
+     (https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/sending_notification_requests_to_apns#2947607)
+    """
+
+    pass
+
+
+class TooManyProviderTokenUpdates(ApnsProviderException):
+    """
+    The provider’s authentication token is being updated too often. Update the authentication token
+     no more than once every 20 minutes.
+    """
+
+    pass
+
+
+class TooManyRequests(ApnsProviderException):
     """
     Too many requests were made consecutively to the same device token.
     """
@@ -211,7 +255,7 @@ class TooManyRequests(KalykeException):
     pass
 
 
-class InternalServerError(KalykeException):
+class InternalServerError(ApnsProviderException):
     """
     An internal server error occurred.
     """
@@ -219,7 +263,7 @@ class InternalServerError(KalykeException):
     pass
 
 
-class ServiceUnavailable(KalykeException):
+class ServiceUnavailable(ApnsProviderException):
     """
     The service is unavailable.
     """
@@ -227,19 +271,9 @@ class ServiceUnavailable(KalykeException):
     pass
 
 
-class Shutdown(KalykeException):
+class Shutdown(ApnsProviderException):
     """
-    The server is shutting down.
+    The APNs server is shutting down.
     """
 
     pass
-
-
-class InternalException(KalykeException):
-    pass
-
-
-class PartialBulkMessage(KalykeException):
-    def __init__(self, message, failure_exceptions):
-        super().__init__(message)
-        self.failure_exceptions = failure_exceptions
