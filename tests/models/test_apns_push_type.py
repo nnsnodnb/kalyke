@@ -3,7 +3,18 @@ import pytest
 from kalyke import ApnsPushType
 
 
-@pytest.mark.parametrize("value, expect", [("alert", ApnsPushType.ALERT), ("background", ApnsPushType.BACKGROUND), ("location", ApnsPushType.LOCATION), ("voip", ApnsPushType.VOIP), ("complication", ApnsPushType.COMPLICATION), ("fileprovider", ApnsPushType.FILE_PROVIDER), ("mdm", ApnsPushType.MDM)])
+@pytest.mark.parametrize(
+    "value, expect",
+    [
+        ("alert", ApnsPushType.ALERT),
+        ("background", ApnsPushType.BACKGROUND),
+        ("location", ApnsPushType.LOCATION),
+        ("voip", ApnsPushType.VOIP),
+        ("complication", ApnsPushType.COMPLICATION),
+        ("fileprovider", ApnsPushType.FILE_PROVIDER),
+        ("mdm", ApnsPushType.MDM),
+    ],
+)
 def test_success(value, expect):
     apns_push_type = ApnsPushType(value)
 

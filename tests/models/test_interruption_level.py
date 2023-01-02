@@ -3,7 +3,15 @@ import pytest
 from kalyke import InterruptionLevel
 
 
-@pytest.mark.parametrize("value, expect", [("passive", InterruptionLevel.PASSIVE), ("active", InterruptionLevel.ACTIVE), ("time-sensitive", InterruptionLevel.TIME_SENSITIVE), ("critical", InterruptionLevel.CRITICAL)])
+@pytest.mark.parametrize(
+    "value, expect",
+    [
+        ("passive", InterruptionLevel.PASSIVE),
+        ("active", InterruptionLevel.ACTIVE),
+        ("time-sensitive", InterruptionLevel.TIME_SENSITIVE),
+        ("critical", InterruptionLevel.CRITICAL),
+    ],
+)
 def test_success(value, expect):
     il = InterruptionLevel(value)
 
