@@ -10,7 +10,7 @@ readme = "README.md"
 python = "^3.7"
 httpx = {extras = ["http2"], version = "^0.23.0"}
 PyJWT = "^2.4.0"
-cryptography = "^38.0.1"
+cryptography = "^39.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.1.1"
