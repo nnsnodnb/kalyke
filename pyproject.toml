@@ -19,6 +19,7 @@ isort = "^5.10.1"
 flake8 = "^5.0.4"
 mypy = "^0.971"
 pytest-cov = "^4.0.0"
+coveralls = "^3.3.1"
 
 [build-system]
 requires = ["poetry-core"]
