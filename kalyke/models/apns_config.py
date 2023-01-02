@@ -46,7 +46,7 @@ class ApnsConfig:
             raise ValueError("Please check your identifier.")
 
     def make_headers(self) -> Dict[str, str]:
-        headers = {
+        headers: Dict[str, Optional[str]] = {
             "apns-push-type": self.push_type.value,
             "apns-id": self.identifier,
             "apns-expiration": str(self.expiration),
@@ -55,5 +55,5 @@ class ApnsConfig:
             "apns-collapse-id": self.collapse_id,
             "user-agent": f"python-httpx/{httpx.__version__} {self.topic}",
         }
-        headers = {k: v for k, v in headers.items() if v is not None}
-        return headers
+        attached_headers: Dict[str, str] = {k: v for k, v in headers.items() if v is not None}
+        return attached_headers

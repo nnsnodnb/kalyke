@@ -5,7 +5,7 @@ import httpx
 from httpx import AsyncClient
 
 from ..internal.status_code import StatusCode
-from ..models import ApnsConfig
+from ..models import ApnsConfig, Payload
 from . import __Client as BaseClient
 
 
@@ -19,16 +19,26 @@ class VoIPClient(BaseClient):
         else:
             self._auth_key_filepath = Path(auth_key_file_path)
 
-    async def send_message(self, device_token: str, payload: Dict[str, Any], apns_config: ApnsConfig) -> str:
+    async def send_message(
+        self,
+        device_token: str,
+        payload: Union[Payload, Dict[str, Any]],
+        apns_config: ApnsConfig,
+    ) -> str:
+        if isinstance(payload, Payload):
+            data = payload.dict()
+        else:
+            data = payload
+
         async with self._init_client(apns_config=apns_config) as client:
             request_url = self._make_url(device_token=device_token)
-            res = await self._send(client=client, url=request_url, data=payload)
+            res = await self._send(client=client, url=request_url, data=data)
 
         status_code = StatusCode(res.status_code)
         if status_code.is_success:
             return res.headers["apns-id"]
 
-        self._handle_error(error_json=res.json(), status_code=status_code)
+        raise self._handle_error(error_json=res.json(), status_code=status_code)()
 
     def _init_client(self, apns_config: ApnsConfig) -> AsyncClient:
         headers = apns_config.make_headers()

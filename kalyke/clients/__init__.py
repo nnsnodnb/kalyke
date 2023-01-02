@@ -1,6 +1,6 @@
 import importlib
 import urllib.parse
-from typing import Any, Dict, Union
+from typing import Any, Callable, Dict, Union
 
 from httpx import AsyncClient, Response
 
@@ -26,7 +26,7 @@ class __Client(object):
         else:
             return "https://api.push.apple.com"
 
-    def _init_client(self, **kwargs) -> AsyncClient:
+    def _init_client(self, apns_config: ApnsConfig) -> AsyncClient:
         raise NotImplementedError
 
     def _make_url(self, device_token: str) -> str:
@@ -35,7 +35,7 @@ class __Client(object):
     async def _send(self, client: AsyncClient, url: str, data: Dict[str, Any]) -> Response:
         return await client.post(url=url, json=data)
 
-    def _handle_error(self, error_json: Dict[str, Any], status_code: StatusCode):
+    def _handle_error(self, error_json: Dict[str, Any], status_code: StatusCode) -> Callable:
         reason = error_json["reason"]
         if (
             status_code.is_bad_request
@@ -49,6 +49,9 @@ class __Client(object):
         ):
             exceptions_module = importlib.import_module("kalyke.exceptions")
             exception_class = getattr(exceptions_module, reason)
-            raise exception_class()
+
+            return exception_class
         elif status_code.is_token_inactive:
             timestamp = error_json["timestamp"]
+
+        return NotImplementedError

@@ -6,30 +6,31 @@ from ..exceptions import VolumeOutOfRangeException
 class CriticalSound:
     _critical: int
     name: Optional[str]
-    volume: Optional[float]
+    volume: float
 
     def __init__(
         self,
-        critical: bool = False,
+        critical: bool,
+        volume: float,
         name: Optional[str] = None,
-        volume: Optional[float] = 1.0,
     ) -> None:
         self._critical = int(critical)
-        self.name = name
         if 0.0 <= volume <= 1.0:
             self.volume = volume
         else:
             raise VolumeOutOfRangeException(volume=volume)
+        self.name = name
 
     @property
     def critical(self) -> bool:
         return bool(self._critical)
 
-    def dict(self) -> Dict[str, Union[str, float]]:
-        sound: Dict[str, Union[str, float]] = {"critical": self._critical}
+    def dict(self) -> Dict[str, Union[int, str, float]]:
+        sound: Dict[str, Union[int, str, float]] = {
+            "critical": self._critical,
+            "volume": self.volume,
+        }
         if self.name:
             sound["name"] = self.name
-        if self.volume:
-            sound["volume"] = self.volume
 
         return sound
