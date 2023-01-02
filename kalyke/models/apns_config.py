@@ -39,11 +39,9 @@ class ApnsConfig:
     @staticmethod
     def _valid_identifier(identifier) -> None:
         try:
-            uuid_obj = uuid.UUID(hex=identifier, version=4)
+            _ = uuid.UUID(hex=identifier, version=4)
         except ValueError:
             raise ValueError(f"{identifier} is invalid format.")
-        if identifier != str(uuid_obj):
-            raise ValueError("Please check your identifier.")
 
     def make_headers(self) -> Dict[str, str]:
         headers: Dict[str, Optional[str]] = {

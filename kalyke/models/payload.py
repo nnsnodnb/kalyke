@@ -15,7 +15,7 @@ class Payload:
     _content_available: int
     _mutable_content: int
     target_content_identifier: Optional[str]
-    interruption_level: InterruptionLevel
+    interruption_level: Optional[InterruptionLevel]
     relevance_score: Optional[float]
     filter_criteria: Optional[str]
     custom: Optional[Dict[str, Any]]
@@ -30,7 +30,7 @@ class Payload:
         content_available: bool = False,
         mutable_content: bool = False,
         target_content_identifier: Optional[str] = None,
-        interruption_level: InterruptionLevel = InterruptionLevel.ACTIVE,
+        interruption_level: Optional[InterruptionLevel] = None,
         relevance_score: Optional[float] = None,
         filter_criteria: Optional[str] = None,
         custom: Optional[Dict[str, Any]] = None,
@@ -63,19 +63,22 @@ class Payload:
         return bool(self._mutable_content)
 
     def dict(self) -> Dict[str, Any]:
-        aps = {
+        aps: Dict[str, Any] = {
             "alert": self.alert.dict() if isinstance(self.alert, PayloadAlert) else self.alert,
             "badge": self.badge,
             "sound": self.sound,
             "thread-id": self.thread_id,
             "category": self.category,
-            "content-available": self._content_available,
-            "mutable-content": self._mutable_content,
             "target-content-identifier": self.target_content_identifier,
-            "interruption-level": self.interruption_level.value,
             "relevance-score": self.relevance_score,
             "filter-criteria": self.filter_criteria,
         }
+        if self._content_available:
+            aps["content-available"] = 1
+        if self._mutable_content:
+            aps["mutable-content"] = 1
+        if self.interruption_level is not None:
+            aps["interruption-level"] = self.interruption_level.value
         aps = {k: v for k, v in aps.items() if v is not None}
         payload = {
             "aps": aps,
