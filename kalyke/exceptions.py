@@ -1,3 +1,6 @@
+from typing import Any, Dict
+
+
 class VolumeOutOfRangeException(Exception):
     _volume: float
 
@@ -20,6 +23,9 @@ class RelevanceScoreOutOfRangeException(Exception):
 
 # https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/handling_notification_responses_from_apns#3394535
 class ApnsProviderException(Exception):
+    def __init__(self, error: Dict[str, Any]) -> None:
+        self.error = error
+
     def __str__(self) -> str:
         return f"{self.__class__.__name__}: {self.__doc__}"
 
@@ -198,6 +204,14 @@ class BadPath(ApnsProviderException):
 class MethodNotAllowed(ApnsProviderException):
     """
     The specified :method value isn’t POST.
+    """
+
+    pass
+
+
+class ExpiredToken(ApnsProviderException):
+    """
+    The device token has expired.
     """
 
     pass

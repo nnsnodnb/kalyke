@@ -38,7 +38,7 @@ class VoIPClient(BaseClient):
         if status_code.is_success:
             return res.headers["apns-id"]
 
-        raise self._handle_error(error_json=res.json(), status_code=status_code)()
+        raise self._handle_error(error_json=res.json())
 
     def _init_client(self, apns_config: ApnsConfig) -> AsyncClient:
         headers = apns_config.make_headers()
