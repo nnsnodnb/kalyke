@@ -15,7 +15,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: black
-      uses: reviewdog/action-black@v2
+      uses: reviewdog/action-black@v3
       with:
         github_token: ${{ secrets.github_token }}
         reporter: github-pr-review
