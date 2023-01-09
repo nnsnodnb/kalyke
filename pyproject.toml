@@ -33,6 +33,7 @@ flake8 = "^5.0.4"
 mypy = "^0.971"
 pytest-cov = "^4.0.0"
 coveralls = "^3.3.1"
+pytest-httpx = "^0.21.2"
 
 [build-system]
 requires = ["poetry-core>=1.4.0"]
