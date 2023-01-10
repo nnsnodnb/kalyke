@@ -1,4 +1,4 @@
-import time
+from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Union
 
@@ -64,7 +64,7 @@ class ApnsClient(BaseClient):
         token = jwt.encode(
             payload={
                 "iss": self._team_id,
-                "iat": str(int(time.time())),
+                "iat": str(int(datetime.now().timestamp())),
             },
             key=auth_key,
             algorithm="ES256",
