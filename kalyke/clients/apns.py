@@ -1,12 +1,11 @@
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Union
+from typing import Union
 
 import jwt
 from httpx import AsyncClient
 
-from ..internal.status_code import StatusCode
-from ..models import ApnsConfig, Payload
+from ..models import ApnsConfig
 from . import __Client as BaseClient
 
 
@@ -29,29 +28,6 @@ class ApnsClient(BaseClient):
             self._auth_key_filepath = auth_key_filepath
         else:
             self._auth_key_filepath = Path(auth_key_filepath)
-
-    async def send_message(
-        self,
-        device_token: str,
-        payload: Union[Payload, Dict[str, Any]],
-        apns_config: ApnsConfig,
-    ) -> str:
-        if isinstance(payload, Payload):
-            data = payload.dict()
-        elif isinstance(payload, Dict):
-            data = payload
-        else:
-            data = {}
-
-        async with self._init_client(apns_config=apns_config) as client:
-            request_url = self._make_url(device_token=device_token)
-            res = await self._send(client=client, url=request_url, data=data)
-
-        status_code = StatusCode(res.status_code)
-        if status_code.is_success:
-            return res.headers["apns-id"]
-
-        raise self._handle_error(error_json=res.json())
 
     def _init_client(self, apns_config: ApnsConfig) -> AsyncClient:
         headers = apns_config.make_headers()
