@@ -5,7 +5,7 @@ from kalyke import ApnsConfig, ApnsPushType, VoIPClient
 
 client = VoIPClient(
     use_sandbox=True,
-    auth_key_file_path=Path("/") / "path" / "to" / "YOUR_VOIP_CERTIFICATE.pem",
+    auth_key_filepath=Path("/") / "path" / "to" / "YOUR_VOIP_CERTIFICATE.pem",
 )
 
 payload = {"key": "value"}

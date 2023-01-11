@@ -12,12 +12,12 @@ from . import __Client as BaseClient
 class VoIPClient(BaseClient):
     _auth_key_filepath: Path
 
-    def __init__(self, use_sandbox: bool, auth_key_file_path: Union[str, Path]) -> None:
+    def __init__(self, use_sandbox: bool, auth_key_filepath: Union[str, Path]) -> None:
         self.use_sandbox = use_sandbox
-        if isinstance(auth_key_file_path, Path):
-            self._auth_key_filepath = auth_key_file_path
+        if isinstance(auth_key_filepath, Path):
+            self._auth_key_filepath = auth_key_filepath
         else:
-            self._auth_key_filepath = Path(auth_key_file_path)
+            self._auth_key_filepath = Path(auth_key_filepath)
 
     async def send_message(
         self,
