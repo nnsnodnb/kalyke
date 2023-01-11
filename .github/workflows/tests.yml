@@ -51,7 +51,7 @@ jobs:
       shell: bash
       run: |
         python -m poetry install
-        echo "${{ secrets.VOIP_PEM_BASE64 }} | base64 -d > ./tests/clients/voip/dummy.pem
+        echo "${{ secrets.VOIP_PEM_BASE64 }}" | base64 -d > ./tests/clients/voip/dummy.pem
 
     - name: Run pytest
       shell: bash
@@ -61,6 +61,7 @@ jobs:
       run: |
         python -m poetry run python -m pytest -v tests
         python -m poetry run coverage report
+
     - name: Coveralls Parallel
       uses: AndreMiras/coveralls-python-action@develop
       with:
