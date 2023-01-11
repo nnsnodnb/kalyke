@@ -3,6 +3,7 @@
 ![Test](https://github.com/nnsnodnb/kalyke/workflows/Test/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/fb85bcf746e1f4025afa/maintainability)](https://codeclimate.com/github/nnsnodnb/kalyke/maintainability)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Coverage Status](https://coveralls.io/repos/github/nnsnodnb/kalyke/badge.svg?branch=main)](https://coveralls.io/github/nnsnodnb/kalyke?branch=main)
 
 [![PyPI Package version](https://badge.fury.io/py/kalyke-apns.svg)](https://pypi.org/project/kalyke-apns)
 [![Python Supported versions](https://img.shields.io/pypi/pyversions/kalyke-apns.svg)](https://pypi.org/project/kalyke-apns)
@@ -56,7 +57,7 @@ from kalyke import ApnsConfig, ApnsPushType, VoIPClient
 
 client = VoIPClient(
     use_sandbox=True,
-    auth_key_file_path=Path("/") / "path" / "to" / "YOUR_VOIP_CERTIFICATE.pem",
+    auth_key_filepath=Path("/") / "path" / "to" / "YOUR_VOIP_CERTIFICATE.pem",
 )
 
 registration_id = "a8a799ba6c21e0795b07b577b562b8537418570c0fb8f7a64dca5a86a5a3b500"
