@@ -51,7 +51,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: mypy
-      uses: tsuyoshicho/action-mypy@v3
+      uses: tsuyoshicho/action-mypy@v4
       with:
         github_token: ${{ secrets.github_token }}
         reporter: github-pr-review
