@@ -33,7 +33,7 @@ mypy = ">=0.971,<1.8"
 pytest-cov = "^4.0.0"
 coveralls = "^3.3.1"
 pytest-httpx = "^0.21.2"
-pytest-asyncio = ">=0.20.3,<0.22.0"
+pytest-asyncio = ">=0.20.3,<0.24.0"
 
 [build-system]
 requires = ["poetry-core>=1.4.0"]
