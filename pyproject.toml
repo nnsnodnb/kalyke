@@ -20,7 +20,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-httpx = {extras = ["http2"], version = "^0.23.1"}
+httpx = {extras = ["http2"], version = "^0.25.0"}
 PyJWT = "^2.6.0"
 cryptography = ">=39,<42"
 
