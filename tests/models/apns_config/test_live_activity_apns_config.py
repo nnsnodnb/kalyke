@@ -2,7 +2,7 @@ import uuid
 
 import pytest
 
-from kalyke.models import ApnsPriority, ApnsPushType, LiveActivityApnsConfig
+from kalyke.models import ApnsPriority, LiveActivityApnsConfig
 
 
 def test_make_headers():
