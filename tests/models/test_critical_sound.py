@@ -12,8 +12,13 @@ def test_dict():
     assert data["name"] == "stub_name"
 
 
-def test_volume_out_of_range_exception():
+@pytest.mark.parametrize(
+    "volume",
+    [-0.01, 1.01],
+    ids=["negative", "greater than 1.0"],
+)
+def test_volume_out_of_range_exception(volume):
     with pytest.raises(exceptions.VolumeOutOfRangeException) as e:
-        _ = CriticalSound(critical=True, volume=1.01)
+        _ = CriticalSound(critical=True, volume=volume)
 
-    assert str(e.value) == "The volume must be a value between 0.0 and 1.0. Did set 1.01."
+    assert str(e.value) == f"The volume must be a value between 0.0 and 1.0. Did set {volume}."
