@@ -41,7 +41,10 @@ def test_success(auth_key_filepath):
 
 def test_file_not_found_error():
     client = ApnsClient(
-        use_sandbox=True, team_id="DUMMY_TEAM_ID", auth_key_id="DUMMY", auth_key_filepath=Path("/") / "no_exist.p8"
+        use_sandbox=True,
+        team_id="DUMMY_TEAM_ID",
+        auth_key_id="DUMMY",
+        auth_key_filepath=Path("/") / "no_exist.p8",
     )
 
     with pytest.raises(FileNotFoundError) as e:
