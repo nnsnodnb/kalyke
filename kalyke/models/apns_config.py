@@ -40,6 +40,18 @@ class ApnsConfig:
 
 
 @dataclass(frozen=True)
+class LiveActivityApnsConfig(ApnsConfig):
+    push_type: ApnsPushType = field(default=ApnsPushType.LIVEACTIVITY, init=False)
+
+    def __post_init__(self):
+        if not self.topic.endswith(".push-type.liveactivity"):
+            raise ValueError(f"topic must end with .push-type.liveactivity, but {self.topic}.")
+        if self.priority == ApnsPriority.POWER_CONSIDERATIONS_OVER_ALL_OTHER_FACTORS:
+            raise ValueError("priority must be BASED_ON_POWER or IMMEDIATELY.")
+        super().__post_init__()
+
+
+@dataclass(frozen=True)
 class VoIPApnsConfig(ApnsConfig):
     push_type: ApnsPushType = field(default=ApnsPushType.VOIP, init=False)
 
