@@ -15,7 +15,7 @@ class ApnsConfig:
     push_type: ApnsPushType = field(default=ApnsPushType.ALERT)
     identifier: Optional[str] = field(default=None)
     priority: ApnsPriority = field(default=ApnsPriority.IMMEDIATELY)
-    expiration: int = field(default=int(time.time()) + 2592000)
+    expiration: int = field(default_factory=lambda: int(time.time()) + 2592000)
     collapse_id: Optional[str] = field(default=None)
 
     def __post_init__(self):
