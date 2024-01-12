@@ -2,7 +2,7 @@ import uuid
 
 import pytest
 
-from kalyke.models import ApnsPriority, ApnsPushType, VoIPApnsConfig
+from kalyke.models import ApnsPriority, VoIPApnsConfig
 
 
 def test_make_headers():
