@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field
 from typing import Any, Dict, Optional, Union
 
 from ..exceptions import RelevanceScoreOutOfRangeException
@@ -6,61 +7,27 @@ from .interruption_level import InterruptionLevel
 from .payload_alert import PayloadAlert
 
 
+@dataclass(frozen=True)
 class Payload:
-    alert: Optional[Union[str, PayloadAlert]]
-    badge: Optional[int]
-    sound: Optional[Union[str, CriticalSound]]
-    thread_id: Optional[str]
-    category: Optional[str]
-    _content_available: int
-    _mutable_content: int
-    target_content_identifier: Optional[str]
-    interruption_level: Optional[InterruptionLevel]
-    relevance_score: Optional[float]
-    filter_criteria: Optional[str]
-    custom: Optional[Dict[str, Any]]
+    alert: Optional[Union[str, PayloadAlert]] = field(default=None)
+    badge: Optional[int] = field(default=None)
+    sound: Optional[Union[str, CriticalSound]] = field(default=None)
+    thread_id: Optional[str] = field(default=None)
+    category: Optional[str] = field(default=None)
+    content_available: bool = field(default=False)
+    mutable_content: bool = field(default=False)
+    target_content_identifier: Optional[str] = field(default=None)
+    interruption_level: Optional[InterruptionLevel] = field(default=None)
+    relevance_score: Optional[float] = field(default=None)
+    filter_criteria: Optional[str] = field(default=None)
+    custom: Optional[Dict[str, Any]] = field(default=None)
 
-    def __init__(
-        self,
-        alert: Optional[Union[str, PayloadAlert]] = None,
-        badge: Optional[int] = None,
-        sound: Optional[Union[str, CriticalSound]] = None,
-        thread_id: Optional[str] = None,
-        category: Optional[str] = None,
-        content_available: bool = False,
-        mutable_content: bool = False,
-        target_content_identifier: Optional[str] = None,
-        interruption_level: Optional[InterruptionLevel] = None,
-        relevance_score: Optional[float] = None,
-        filter_criteria: Optional[str] = None,
-        custom: Optional[Dict[str, Any]] = None,
-    ) -> None:
-        self.alert = alert
-        self.badge = badge
-        self.sound = sound
-        self.thread_id = thread_id
-        self.category = category
-        self._content_available = int(content_available)
-        self._mutable_content = int(mutable_content)
-        self.target_content_identifier = target_content_identifier
-        self.interruption_level = interruption_level
-        if relevance_score:
-            if 0.0 <= relevance_score <= 1.0:
-                self.relevance_score = relevance_score
+    def __post_init__(self):
+        if self.relevance_score:
+            if 0.0 <= self.relevance_score <= 1.0:
+                pass
             else:
-                raise RelevanceScoreOutOfRangeException(relevance_score=relevance_score)
-        else:
-            self.relevance_score = relevance_score
-        self.filter_criteria = filter_criteria
-        self.custom = custom
-
-    @property
-    def content_available(self) -> bool:
-        return bool(self._content_available)
-
-    @property
-    def mutable_content(self) -> bool:
-        return bool(self._mutable_content)
+                raise RelevanceScoreOutOfRangeException(relevance_score=self.relevance_score)
 
     def dict(self) -> Dict[str, Any]:
         aps: Dict[str, Any] = {
@@ -73,9 +40,9 @@ class Payload:
             "relevance-score": self.relevance_score,
             "filter-criteria": self.filter_criteria,
         }
-        if self._content_available:
+        if self.content_available:
             aps["content-available"] = 1
-        if self._mutable_content:
+        if self.mutable_content:
             aps["mutable-content"] = 1
         if self.interruption_level is not None:
             aps["interruption-level"] = self.interruption_level.value
