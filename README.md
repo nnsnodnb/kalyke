@@ -44,7 +44,13 @@ payload_alert = PayloadAlert(title="YOUR TITLE", body="YOUR BODY")
 payload = Payload(alert=payload_alert, badge=1, sound="default")
 config = ApnsConfig(topic="com.example.App")
 
-asyncio.run(client.send_message(device_token=registration_id, payload=payload, apns_config=config))
+asyncio.run(
+    client.send_message(
+        device_token=registration_id,
+        payload=payload,
+        apns_config=config,
+    )
+)
 ```
 
 ### VoIP
@@ -63,9 +69,18 @@ client = VoIPClient(
 registration_id = "a8a799ba6c21e0795b07b577b562b8537418570c0fb8f7a64dca5a86a5a3b500"
 
 payload = {"key": "value"}
-config = ApnsConfig(topic="com.example.App.voip", push_type=ApnsPushType.VOIP)
+config = ApnsConfig(
+    topic="com.example.App.voip",
+    push_type=ApnsPushType.VOIP,
+)
 
-asyncio.run(client.send_message(device_token=registration_id, payload=payload, apns_config=config))
+asyncio.run(
+    client.send_message(
+        device_token=registration_id,
+        payload=payload,
+        apns_config=config,
+    )
+)
 ```
 
 ## License

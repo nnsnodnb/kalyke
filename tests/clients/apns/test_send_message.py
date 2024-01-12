@@ -16,14 +16,19 @@ async def test_success(httpx_mock, auth_key_filepath):
     )
 
     client = ApnsClient(
-        use_sandbox=True, team_id="DUMMY_TEAM", auth_key_id="DUMMY", auth_key_filepath=auth_key_filepath
+        use_sandbox=True,
+        team_id="DUMMY_TEAM",
+        auth_key_id="DUMMY",
+        auth_key_filepath=auth_key_filepath,
     )
     apns_id = await client.send_message(
         device_token="stub_device_token",
         payload={
             "alert": "test alert",
         },
-        apns_config=ApnsConfig(topic="com.example.App"),
+        apns_config=ApnsConfig(
+            topic="com.example.App",
+        ),
     )
 
     assert apns_id == "stub-apns-id"
@@ -40,7 +45,10 @@ async def test_bad_device_token(httpx_mock, auth_key_filepath):
     )
 
     client = ApnsClient(
-        use_sandbox=True, team_id="DUMMY_TEAM_ID", auth_key_id="DUMMY", auth_key_filepath=auth_key_filepath
+        use_sandbox=True,
+        team_id="DUMMY_TEAM_ID",
+        auth_key_id="DUMMY",
+        auth_key_filepath=auth_key_filepath,
     )
 
     with pytest.raises(BadDeviceToken) as e:
@@ -49,7 +57,9 @@ async def test_bad_device_token(httpx_mock, auth_key_filepath):
             payload={
                 "alert": "test alert",
             },
-            apns_config=ApnsConfig(topic="com.example.App"),
+            apns_config=ApnsConfig(
+                topic="com.example.App",
+            ),
         )
 
     assert str(e.value) == str(BadDeviceToken(error={}))
@@ -58,14 +68,19 @@ async def test_bad_device_token(httpx_mock, auth_key_filepath):
 @pytest.mark.asyncio
 async def test_value_error(httpx_mock, auth_key_filepath):
     client = ApnsClient(
-        use_sandbox=True, team_id="DUMMY_TEAM_ID", auth_key_id="DUMMY", auth_key_filepath=auth_key_filepath
+        use_sandbox=True,
+        team_id="DUMMY_TEAM_ID",
+        auth_key_id="DUMMY",
+        auth_key_filepath=auth_key_filepath,
     )
 
     with pytest.raises(ValueError) as e:
         await client.send_message(
             device_token="stub_device_token",
             payload=["test alert"],
-            apns_config=ApnsConfig(topic="com.example.App"),
+            apns_config=ApnsConfig(
+                topic="com.example.App",
+            ),
         )
 
     assert str(e.value) == "Type of 'payload' must be specified by Payload or Dict[str, Any]."

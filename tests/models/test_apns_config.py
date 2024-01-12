@@ -2,7 +2,7 @@ import uuid
 
 import pytest
 
-from kalyke.models import ApnsConfig, ApnsPushType
+from kalyke.models import ApnsConfig, ApnsPriority, ApnsPushType
 
 
 def test_make_headers():
@@ -12,7 +12,7 @@ def test_make_headers():
         push_type=ApnsPushType.ALERT,
         identifier=str(identifier),
         expiration=0,
-        priority=5,
+        priority=ApnsPriority.BASED_ON_POWER,
         collapse_id="stub_collapse_id",
     )
     data = config.make_headers()

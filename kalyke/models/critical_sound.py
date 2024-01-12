@@ -1,33 +1,24 @@
+from dataclasses import dataclass, field
 from typing import Dict, Optional, Union
 
 from ..exceptions import VolumeOutOfRangeException
 
 
+@dataclass(frozen=True)
 class CriticalSound:
-    _critical: int
-    name: Optional[str]
+    critical: bool
     volume: float
+    name: Optional[str] = field(default=None)
 
-    def __init__(
-        self,
-        critical: bool,
-        volume: float,
-        name: Optional[str] = None,
-    ) -> None:
-        self._critical = int(critical)
-        if 0.0 <= volume <= 1.0:
-            self.volume = volume
+    def __post_init__(self):
+        if 0.0 <= self.volume <= 1.0:
+            pass
         else:
-            raise VolumeOutOfRangeException(volume=volume)
-        self.name = name
-
-    @property
-    def critical(self) -> bool:
-        return bool(self._critical)
+            raise VolumeOutOfRangeException(volume=self.volume)
 
     def dict(self) -> Dict[str, Union[int, str, float]]:
         sound: Dict[str, Union[int, str, float]] = {
-            "critical": self._critical,
+            "critical": int(self.critical),
             "volume": self.volume,
         }
         if self.name:
