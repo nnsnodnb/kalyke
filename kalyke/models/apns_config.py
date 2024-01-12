@@ -37,3 +37,13 @@ class ApnsConfig:
         }
         attached_headers: Dict[str, str] = {k: v for k, v in headers.items() if v is not None}
         return attached_headers
+
+
+@dataclass(frozen=True)
+class VoIPApnsConfig(ApnsConfig):
+    push_type: ApnsPushType = field(default=ApnsPushType.VOIP, init=False)
+
+    def __post_init__(self):
+        if not self.topic.endswith(".voip"):
+            raise ValueError(f"topic must end with .voip, but {self.topic}.")
+        super().__post_init__()

@@ -5,7 +5,7 @@ from typing import Union
 import httpx
 from httpx import AsyncClient
 
-from ..models import ApnsConfig
+from ..models import VoIPApnsConfig
 from . import __Client as BaseClient
 
 
@@ -21,7 +21,7 @@ class VoIPClient(BaseClient):
         else:
             self._auth_key_filepath = Path(self.auth_key_filepath)
 
-    def _init_client(self, apns_config: ApnsConfig) -> AsyncClient:
+    def _init_client(self, apns_config: VoIPApnsConfig) -> AsyncClient:
         headers = apns_config.make_headers()
         context = httpx.create_ssl_context()
         context.load_cert_chain(self._auth_key_filepath)

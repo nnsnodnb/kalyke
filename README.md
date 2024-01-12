@@ -59,7 +59,7 @@ asyncio.run(
 import asyncio
 from pathlib import Path
 
-from kalyke import ApnsConfig, ApnsPushType, VoIPClient
+from kalyke import VoIPApnsConfig, ApnsPushType, VoIPClient
 
 client = VoIPClient(
     use_sandbox=True,
@@ -69,9 +69,8 @@ client = VoIPClient(
 registration_id = "a8a799ba6c21e0795b07b577b562b8537418570c0fb8f7a64dca5a86a5a3b500"
 
 payload = {"key": "value"}
-config = ApnsConfig(
+config = VoIPApnsConfig(
     topic="com.example.App.voip",
-    push_type=ApnsPushType.VOIP,
 )
 
 asyncio.run(

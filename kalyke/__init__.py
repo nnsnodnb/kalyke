@@ -1,6 +1,6 @@
 from .clients.apns import ApnsClient
 from .clients.voip import VoIPClient
-from .models.apns_config import ApnsConfig
+from .models.apns_config import ApnsConfig, VoIPApnsConfig
 from .models.apns_priority import ApnsPriority
 from .models.apns_push_type import ApnsPushType
 from .models.critical_sound import CriticalSound
@@ -12,6 +12,7 @@ __all__ = [
     "ApnsClient",
     "VoIPClient",
     "ApnsConfig",
+    "VoIPApnsConfig",
     "ApnsPriority",
     "ApnsPushType",
     "CriticalSound",
