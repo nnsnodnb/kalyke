@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Union
 
@@ -8,15 +9,17 @@ from ..models import ApnsConfig
 from . import __Client as BaseClient
 
 
+@dataclass
 class VoIPClient(BaseClient):
-    _auth_key_filepath: Path
+    use_sandbox: bool
+    auth_key_filepath: Union[str, Path]
+    _auth_key_filepath: Path = field(init=False)
 
-    def __init__(self, use_sandbox: bool, auth_key_filepath: Union[str, Path]) -> None:
-        self.use_sandbox = use_sandbox
-        if isinstance(auth_key_filepath, Path):
-            self._auth_key_filepath = auth_key_filepath
+    def __post_init__(self):
+        if isinstance(self.auth_key_filepath, Path):
+            self._auth_key_filepath = self.auth_key_filepath
         else:
-            self._auth_key_filepath = Path(auth_key_filepath)
+            self._auth_key_filepath = Path(self.auth_key_filepath)
 
     def _init_client(self, apns_config: ApnsConfig) -> AsyncClient:
         headers = apns_config.make_headers()
