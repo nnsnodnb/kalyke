@@ -13,7 +13,9 @@ from kalyke import ApnsPushType
         ("complication", ApnsPushType.COMPLICATION),
         ("fileprovider", ApnsPushType.FILE_PROVIDER),
         ("mdm", ApnsPushType.MDM),
+        ("liveactivity", ApnsPushType.LIVEACTIVITY),
     ],
+    ids=["alert", "background", "location", "voip", "complication", "fileprovider", "mdm", "liveactivity"],
 )
 def test_success(value, expect):
     apns_push_type = ApnsPushType(value)
