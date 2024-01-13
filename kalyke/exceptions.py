@@ -21,6 +21,16 @@ class RelevanceScoreOutOfRangeException(Exception):
         return f"The system uses the relevance_score, a value between 0 and 1. Did set {self._relevance_score}."
 
 
+class LiveActivityAttributesIsNotJSONSerializable(Exception):
+    def __str__(self) -> str:
+        return "The attributes is not JSON serializable."
+
+
+class LiveActivityContentStateIsNotJSONSerializable(Exception):
+    def __str__(self) -> str:
+        return "The content state is not JSON serializable."
+
+
 # https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/handling_notification_responses_from_apns#3394535
 class ApnsProviderException(Exception):
     def __init__(self, error: Dict[str, Any]) -> None:
