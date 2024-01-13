@@ -80,15 +80,7 @@ class LiveActivityPayload(Payload):
         if self.event is None:
             raise ValueError("event must be specified.")
         elif self.event == LiveActivityEvent.START:
-            if self.attributes_type is None or self.attributes is None:
-                raise ValueError(
-                    "attributes_type and attributes must be specified when event is start.\nPlease see documentation: https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification"  # noqa: E501
-                )
-            try:
-                _ = json.dumps(self.attributes)
-            except TypeError:
-                raise LiveActivityAttributesIsNotJSONSerializable()
-
+            self._validate_event_is_start()
         try:
             _ = json.dumps(self.content_state)
         except TypeError:
@@ -98,6 +90,16 @@ class LiveActivityPayload(Payload):
     def _validate_relevance_score(self):
         # You can set any Double value; for example, 25, 50, 75, or 100.
         pass
+
+    def _validate_event_is_start(self):
+        if self.attributes_type is None or self.attributes is None:
+            raise ValueError(
+                "attributes_type and attributes must be specified when event is start.\nPlease see documentation: https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification"  # noqa: E501
+            )
+        try:
+            _ = json.dumps(self.attributes)
+        except TypeError:
+            raise LiveActivityAttributesIsNotJSONSerializable()
 
     def dict(self) -> Dict[str, Any]:
         payload = super().dict()
