@@ -1,7 +1,4 @@
 from enum import Enum
-from typing import TypeVar
-
-Self = TypeVar("Self", bound="StatusCode")
 
 
 class StatusCode(Enum):
