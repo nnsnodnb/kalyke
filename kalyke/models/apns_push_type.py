@@ -9,3 +9,4 @@ class ApnsPushType(Enum):
     COMPLICATION: str = "complication"
     FILE_PROVIDER: str = "fileprovider"
     MDM: str = "mdm"
+    LIVEACTIVITY: str = "liveactivity"

@@ -53,13 +53,55 @@ asyncio.run(
 )
 ```
 
+### LiveActivity
+
+```python
+import asyncio
+from datetime import datetime
+
+from kalyke import LiveActivityClient, LiveActivityApnsConfig, LiveActivityEvent, LiveActivityPayload, PayloadAlert
+
+client = LiveActivityClient(
+    use_sandbox=True,
+    team_id="YOUR_TEAM_ID",
+    auth_key_id="AUTH_KEY_ID",
+    auth_key_filepath="/path/to/AuthKey_AUTH_KEY_ID.p8",
+)
+
+registration_id = "a8a799ba6c21e0795b07b577b562b8537418570c0fb8f7a64dca5a86a5a3b500"
+
+payload_alert = PayloadAlert(title="YOUR TITLE", body="YOUR BODY")
+payload = LiveActivityPayload(
+    alert=payload_alert,
+    badge=1,
+    sound="default",
+    timestamp=datetime.now(),
+    event=LiveActivityEvent.UPDATE,
+    content_state={
+        "currentHealthLevel": 100,
+        "eventDescription": "Adventure has begun!",
+    },
+)
+config = LiveActivityApnsConfig(
+    topic="com.example.App.push-type.liveactivity",
+)
+
+asyncio.run(
+    client.send_message(
+        device_token=registration_id,
+        payload=payload,
+        apns_config=config,
+    )
+)
+```
+
 ### VoIP
 
 ```python
 import asyncio
 from pathlib import Path
 
-from kalyke import ApnsConfig, ApnsPushType, VoIPClient
+from kalyke import VoIPApnsConfig, ApnsPushType, VoIPClient
 
 client = VoIPClient(
     use_sandbox=True,
@@ -69,9 +111,8 @@ client = VoIPClient(
 registration_id = "a8a799ba6c21e0795b07b577b562b8537418570c0fb8f7a64dca5a86a5a3b500"
 
 payload = {"key": "value"}
-config = ApnsConfig(
+config = VoIPApnsConfig(
     topic="com.example.App.voip",
-    push_type=ApnsPushType.VOIP,
 )
 
 asyncio.run(

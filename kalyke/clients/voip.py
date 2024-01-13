@@ -1,11 +1,11 @@
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Union
+from typing import Any, Dict, Union
 
 import httpx
 from httpx import AsyncClient
 
-from ..models import ApnsConfig
+from ..models import VoIPApnsConfig
 from . import __Client as BaseClient
 
 
@@ -21,7 +21,19 @@ class VoIPClient(BaseClient):
         else:
             self._auth_key_filepath = Path(self.auth_key_filepath)
 
-    def _init_client(self, apns_config: ApnsConfig) -> AsyncClient:
+    async def send_message(
+        self,
+        device_token: str,
+        payload: Dict[str, Any],
+        apns_config: VoIPApnsConfig,
+    ) -> str:
+        return await super().send_message(
+            device_token=device_token,
+            payload=payload,
+            apns_config=apns_config,
+        )
+
+    def _init_client(self, apns_config: VoIPApnsConfig) -> AsyncClient:
         headers = apns_config.make_headers()
         context = httpx.create_ssl_context()
         context.load_cert_chain(self._auth_key_filepath)

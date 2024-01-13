@@ -164,7 +164,7 @@ def test_handle_error(reason, expect):
     client = __Client()
     exception = client._handle_error(error_json={"reason": reason})
 
-    assert type(exception) == expect
+    assert isinstance(exception, expect)
 
 
 def test_attributed_error():
