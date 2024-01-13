@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Union, Dict, Any
+from typing import Any, Dict, Union
 
 import httpx
 from httpx import AsyncClient

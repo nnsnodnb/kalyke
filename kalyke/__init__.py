@@ -15,7 +15,6 @@ from .models import (
     VoIPApnsConfig,
 )
 
-
 __all__ = [
     "ApnsClient",
     "ApnsConfig",
