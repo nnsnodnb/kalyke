@@ -79,20 +79,19 @@ class LiveActivityPayload(Payload):
     def __post_init__(self):
         if self.event is None:
             raise ValueError("event must be specified.")
-        elif self.event == LiveActivityEvent.start:
+        elif self.event == LiveActivityEvent.START:
             if self.attributes_type is None or self.attributes is None:
                 raise ValueError(
-                    """attributes_type and attributes must be specified when event is start.
-                    Please see documentation: https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification"""  # noqa: E501
+                    "attributes_type and attributes must be specified when event is start.\nPlease see documentation: https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification"  # noqa: E501
                 )
             try:
                 _ = json.dumps(self.attributes)
-            except json.decoder.JSONDecodeError:
+            except TypeError:
                 raise LiveActivityAttributesIsNotJSONSerializable()
 
         try:
             _ = json.dumps(self.content_state)
-        except json.decoder.JSONDecodeError:
+        except TypeError:
             raise LiveActivityContentStateIsNotJSONSerializable()
         super().__post_init__()
 

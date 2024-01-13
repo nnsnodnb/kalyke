@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Any, Dict, Union
 
 from httpx import AsyncClient
 
@@ -11,7 +12,7 @@ class LiveActivityClient(ApnsClient):
     async def send_message(
         self,
         device_token: str,
-        payload: LiveActivityPayload,
+        payload: Union[LiveActivityPayload, Dict[str, Any]],
         apns_config: LiveActivityApnsConfig,
     ) -> str:
         return await super().send_message(
