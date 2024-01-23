@@ -5,7 +5,6 @@ from typing import Any, Dict, Union
 from httpx import AsyncClient, Response
 
 from ..exceptions import ApnsProviderException
-from ..internal.status_code import StatusCode
 from ..models import ApnsConfig, Payload
 
 
@@ -29,8 +28,7 @@ class __Client(object):
             request_url = self._make_url(device_token=device_token)
             res = await self._send(client=client, url=request_url, data=data)
 
-        status_code = StatusCode(res.status_code)
-        if status_code.is_success:
+        if res.is_success:
             return res.headers["apns-id"]
 
         raise self._handle_error(error_json=res.json())
