@@ -7,7 +7,7 @@ from ..models import LiveActivityApnsConfig, LiveActivityPayload
 from .apns import ApnsClient
 
 
-@dataclass
+@dataclass(frozen=True)
 class LiveActivityClient(ApnsClient):
     async def send_message(
         self,

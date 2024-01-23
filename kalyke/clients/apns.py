@@ -10,19 +10,12 @@ from ..models import ApnsConfig
 from . import __Client as BaseClient
 
 
-@dataclass
+@dataclass(frozen=True)
 class ApnsClient(BaseClient):
     use_sandbox: bool
     team_id: str
     auth_key_id: str
     auth_key_filepath: Union[str, Path]
-    _auth_key_filepath: Path = field(init=False)
-
-    def __post_init__(self):
-        if isinstance(self.auth_key_filepath, Path):
-            self._auth_key_filepath = self.auth_key_filepath
-        else:
-            self._auth_key_filepath = Path(self.auth_key_filepath)
 
     def _init_client(self, apns_config: ApnsConfig) -> AsyncClient:
         headers = apns_config.make_headers()
@@ -31,7 +24,7 @@ class ApnsClient(BaseClient):
         return client
 
     def _make_authorization(self) -> str:
-        auth_key = self._auth_key_filepath.read_text()
+        auth_key = self._get_auth_key_filepath().read_text()
         token = jwt.encode(
             payload={
                 "iss": self.team_id,

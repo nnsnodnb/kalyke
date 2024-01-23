@@ -1,5 +1,6 @@
 import importlib
 import urllib.parse
+from pathlib import Path
 from typing import Any, Dict, Union
 
 from httpx import AsyncClient, Response
@@ -10,6 +11,7 @@ from ..models import ApnsConfig, Payload
 
 class __Client(object):
     use_sandbox: bool
+    auth_key_filepath: Union[str, Path]
 
     async def send_message(
         self,
@@ -55,3 +57,9 @@ class __Client(object):
         exception_class = getattr(exceptions_module, reason)
 
         return exception_class(error=error_json)
+
+    def _get_auth_key_filepath(self) -> Path:
+        if isinstance(self.auth_key_filepath, Path):
+            return self.auth_key_filepath
+        else:
+            return Path(self.auth_key_filepath)
