@@ -35,6 +35,7 @@ jobs:
       shell: bash
       run: |
         poetry install --sync --no-root
+        poetry self add "poetry-dynamic-versioning[plugin]"
         echo "${{ secrets.VOIP_PEM_BASE64 }}" | base64 -d > ./tests/clients/voip/dummy.pem
 
     - name: Run pytest

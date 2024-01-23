@@ -32,3 +32,4 @@ __all__ = [
     "VoIPApnsConfig",
     "exceptions",
 ]
+__version__ = "0.0.0"

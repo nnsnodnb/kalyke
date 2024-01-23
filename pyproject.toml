@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kalyke-apns"
-version = "1.0.0"
+version = "0.0.0" # replacing poetry-dynamic-versioning
 description = "A library for interacting with APNs and VoIP using HTTP/2."
 authors = ["Yuya Oka <nnsnodnb@gmail.com>"]
 license = "MIT"
@@ -41,9 +41,14 @@ coveralls = "^3.3.1"
 pytest-httpx = ">=0.21.3,<0.29.0"
 pytest-asyncio = ">=0.20.3,<0.24.0"
 
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+pattern = "^((?P<epoch>\\d+)!)?(?P<base>\\d+(\\.\\d+)*)"
+
 [build-system]
-requires = ["poetry-core>=1.4.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.4.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.black]
 line-length = 120
