@@ -22,6 +22,7 @@ jobs:
         pip install -U pip pipx
         pipx install poetry
         poetry run pip install -U setuptools pip
+        poetry self add "poetry-dynamic-versioning[plugin]"
 
     - name: Configure poetry
       uses: actions/setup-python@v5
