@@ -1,7 +1,7 @@
 import asyncio
 from pathlib import Path
 
-from kalyke import ApnsConfig, ApnsPushType, VoIPClient
+from kalyke import VoIPApnsConfig, VoIPClient
 
 client = VoIPClient(
     use_sandbox=True,
@@ -9,7 +9,7 @@ client = VoIPClient(
 )
 
 payload = {"key": "value"}
-config = ApnsConfig(topic="com.example.App.voip", push_type=ApnsPushType.VOIP)
+config = VoIPApnsConfig(topic="com.example.App.voip")
 
 # Send single VoIP notification
 
