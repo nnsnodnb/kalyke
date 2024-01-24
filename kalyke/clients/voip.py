@@ -19,7 +19,7 @@ class VoIPClient(BaseClient):
 
     def __post_init__(self) -> None:
         if self.key_filepath is None and self.password is not None:
-            warnings.warn("password is ignored because key_filepath is None.", UserWarning)
+            warnings.warn(UserWarning("password is ignored because key_filepath is None."))
 
     async def send_message(
         self,
