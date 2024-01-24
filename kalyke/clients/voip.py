@@ -1,6 +1,7 @@
+import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Union
+from typing import Any, Dict, Optional, Union
 
 import httpx
 from httpx import AsyncClient
@@ -9,17 +10,16 @@ from ..models import VoIPApnsConfig
 from . import __Client as BaseClient
 
 
-@dataclass
+@dataclass(frozen=True)
 class VoIPClient(BaseClient):
     use_sandbox: bool
     auth_key_filepath: Union[str, Path]
-    _auth_key_filepath: Path = field(init=False)
+    key_filepath: Optional[Union[str, Path]] = field(default=None)
+    password: Optional[str] = field(default=None)
 
-    def __post_init__(self):
-        if isinstance(self.auth_key_filepath, Path):
-            self._auth_key_filepath = self.auth_key_filepath
-        else:
-            self._auth_key_filepath = Path(self.auth_key_filepath)
+    def __post_init__(self) -> None:
+        if self.key_filepath is None and self.password is not None:
+            warnings.warn(UserWarning("password is ignored because key_filepath is None."))
 
     async def send_message(
         self,
@@ -36,6 +36,10 @@ class VoIPClient(BaseClient):
     def _init_client(self, apns_config: VoIPApnsConfig) -> AsyncClient:
         headers = apns_config.make_headers()
         context = httpx.create_ssl_context()
-        context.load_cert_chain(self._auth_key_filepath)
+        context.load_cert_chain(
+            certfile=self._get_auth_key_filepath(),
+            keyfile=self.key_filepath,
+            password=self.password,
+        )
         client = AsyncClient(headers=headers, verify=context, http2=True)
         return client

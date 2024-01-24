@@ -101,7 +101,7 @@ asyncio.run(
 import asyncio
 from pathlib import Path
 
-from kalyke import VoIPApnsConfig, ApnsPushType, VoIPClient
+from kalyke import VoIPApnsConfig, VoIPClient
 
 client = VoIPClient(
     use_sandbox=True,
