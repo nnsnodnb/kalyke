@@ -6,7 +6,6 @@ from typing import Any, Dict, Optional, Union
 import httpx
 from httpx import AsyncClient
 
-from .._types import CertTypes
 from ..models import VoIPApnsConfig
 from . import __Client as BaseClient
 
@@ -36,13 +35,11 @@ class VoIPClient(BaseClient):
 
     def _init_client(self, apns_config: VoIPApnsConfig) -> AsyncClient:
         headers = apns_config.make_headers()
-
-        cert: CertTypes = (
-            self._get_auth_key_filepath().as_posix(),
-            self.key_filepath.as_posix() if self.key_filepath is not None else None,
-            self.password if self.key_filepath is not None else None,
+        context = httpx.create_ssl_context()
+        context.load_cert_chain(
+            certfile=self._get_auth_key_filepath(),
+            keyfile=self.key_filepath,
+            password=self.password,
         )
-        context = httpx.create_ssl_context(cert=cert)
-        context.load_cert_chain(self._get_auth_key_filepath())
         client = AsyncClient(headers=headers, verify=context, http2=True)
         return client
