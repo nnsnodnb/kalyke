@@ -31,7 +31,7 @@ PyJWT = ">=2.0.0,<2.9.0"
 cryptography = ">=39,<43"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.1.1"
+pytest = "^8.0.0"
 black = ">=22.8,<24.2"
 isort = "^5.10.1"
 flake8 = "^7.0.0"
