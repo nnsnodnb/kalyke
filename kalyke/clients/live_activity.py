@@ -12,8 +12,8 @@ class LiveActivityClient(ApnsClient):
     async def send_message(
         self,
         device_token: str,
-        payload: Union[LiveActivityPayload, Dict[str, Any]],
-        apns_config: LiveActivityApnsConfig,
+        payload: Union[LiveActivityPayload, Dict[str, Any]],  # type: ignore[override]
+        apns_config: LiveActivityApnsConfig,  # type: ignore[override]
     ) -> str:
         return await super().send_message(
             device_token=device_token,
@@ -21,5 +21,8 @@ class LiveActivityClient(ApnsClient):
             apns_config=apns_config,
         )
 
-    def _init_client(self, apns_config: LiveActivityApnsConfig) -> AsyncClient:
+    def _init_client(
+        self,
+        apns_config: LiveActivityApnsConfig,  # type: ignore[override]
+    ) -> AsyncClient:
         return super()._init_client(apns_config=apns_config)

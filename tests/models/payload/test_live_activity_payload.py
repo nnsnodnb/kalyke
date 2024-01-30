@@ -5,13 +5,6 @@ import pytest
 from kalyke import InterruptionLevel, LiveActivityEvent, LiveActivityPayload, PayloadAlert, exceptions
 
 
-def test_live_activity_payload_event_is_not_event_value_error():
-    with pytest.raises(ValueError) as e:
-        _ = LiveActivityPayload()
-
-    assert str(e.value) == "event must be specified."
-
-
 @pytest.mark.parametrize(
     "attributes_type, attributes",
     [

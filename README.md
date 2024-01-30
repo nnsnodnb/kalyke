@@ -55,6 +55,10 @@ asyncio.run(
 
 ### LiveActivity
 
+> [!NOTE]
+> - The topic suffix must be `.push-type.liveactivity`.
+> - `LiveActivityPayload.event` default value is `LiveActivityEvent.UPDATE`.
+
 ```python
 import asyncio
 from datetime import datetime
@@ -96,6 +100,9 @@ asyncio.run(
 ```
 
 ### VoIP
+
+> [!NOTE]
+> - The topic suffix must be `.voip`.
 
 ```python
 import asyncio
