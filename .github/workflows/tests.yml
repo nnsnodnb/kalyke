@@ -47,6 +47,11 @@ jobs:
         poetry run python -m pytest -v tests
         poetry run coverage report
 
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
     - name: Coveralls Parallel
       uses: AndreMiras/coveralls-python-action@develop
       with:
