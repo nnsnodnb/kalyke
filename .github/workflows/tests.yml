@@ -42,7 +42,6 @@ jobs:
       shell: bash
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       run: |
         poetry run python -m pytest -v tests
         poetry run coverage report
@@ -51,20 +50,3 @@ jobs:
       uses: codecov/codecov-action@v3
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-    - name: Coveralls Parallel
-      uses: AndreMiras/coveralls-python-action@develop
-      with:
-        flag-name: run-${{ matrix.python-version }}
-        parallel: true
-
-  coveralls:
-    name: Indicate completion to coveralls.io
-    needs: tests
-    runs-on: ubuntu-latest
-    container: python:3-slim
-    steps:
-    - name: Coveralls Finished
-      uses: AndreMiras/coveralls-python-action@develop
-      with:
-        parallel-finished: true
