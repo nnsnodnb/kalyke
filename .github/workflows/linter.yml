@@ -46,16 +46,22 @@ jobs:
         python-version: ['3.9', '3.10', '3.11', '3.12']
     steps:
     - uses: actions/checkout@v4
+    - name: Install poetry
+      run: pipx install poetry
     - name: Set up Python environment
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+        cache: 'poetry'
+    - name: Install dependencies
+      run: poetry install --sync --with dev --no-root
     - name: mypy
       uses: tsuyoshicho/action-mypy@v4
       with:
         github_token: ${{ secrets.github_token }}
         reporter: github-pr-review
         level: warning
+        execute_command: poetry run mypy --config-file mypy.ini .
 
   isort:
     runs-on: ubuntu-latest
