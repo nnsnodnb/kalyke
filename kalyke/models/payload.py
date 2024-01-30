@@ -69,7 +69,7 @@ class Payload:
 @dataclass(frozen=True)
 class LiveActivityPayload(Payload):
     timestamp: datetime = field(default_factory=datetime.now)
-    event: LiveActivityEvent = field(default=None)
+    event: LiveActivityEvent = field(default=LiveActivityEvent.UPDATE)
     content_state: Dict[str, Any] = field(default_factory=dict)
     stale_date: Optional[datetime] = field(default=None)
     dismissal_date: Optional[datetime] = field(default=None)
@@ -77,9 +77,7 @@ class LiveActivityPayload(Payload):
     attributes: Optional[Dict[str, Any]] = field(default=None)
 
     def __post_init__(self):
-        if self.event is None:
-            raise ValueError("event must be specified.")
-        elif self.event == LiveActivityEvent.START:
+        if self.event == LiveActivityEvent.START:
             self._validate_event_is_start()
         try:
             _ = json.dumps(self.content_state)

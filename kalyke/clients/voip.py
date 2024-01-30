@@ -24,8 +24,8 @@ class VoIPClient(BaseClient):
     async def send_message(
         self,
         device_token: str,
-        payload: Dict[str, Any],
-        apns_config: VoIPApnsConfig,
+        payload: Dict[str, Any],  # type: ignore[override]
+        apns_config: VoIPApnsConfig,  # type: ignore[override]
     ) -> str:
         return await super().send_message(
             device_token=device_token,
@@ -33,7 +33,10 @@ class VoIPClient(BaseClient):
             apns_config=apns_config,
         )
 
-    def _init_client(self, apns_config: VoIPApnsConfig) -> AsyncClient:
+    def _init_client(
+        self,
+        apns_config: VoIPApnsConfig,  # type: ignore[override]
+    ) -> AsyncClient:
         headers = apns_config.make_headers()
         context = httpx.create_ssl_context()
         context.load_cert_chain(
