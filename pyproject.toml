@@ -26,7 +26,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.9"
-httpx = {extras = ["http2"], version = ">=0.27.0,<0.28.0"}
+httpx = {extras = ["http2"], version = ">=0.23.0,<0.28.0"}
 PyJWT = ">=2.0.0,<2.9.0"
 cryptography = ">=39,<43"
 
@@ -37,7 +37,7 @@ isort = "^5.10.1"
 flake8 = "^7.0.0"
 mypy = ">=1.8,<2"
 pytest-cov = "^4.0.0"
-pytest-httpx = ">=0.30.0,<0.31.0"
+pytest-httpx = ">=0.21.3"
 pytest-asyncio = ">=0.20.3,<0.24.0"
 pem = "^23.1.0"
 
