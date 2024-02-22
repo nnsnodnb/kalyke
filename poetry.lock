@@ -377,13 +377,13 @@ trio = ["trio (>=0.22.0,<0.23.0)"]
 
 [[package]]
 name = "httpx"
-version = "0.26.0"
+version = "0.27.0"
 description = "The next generation HTTP client."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "httpx-0.26.0-py3-none-any.whl", hash = "sha256:8915f5a3627c4d47b73e8202457cb28f1266982d1159bd5779d86a80c0eab1cd"},
-    {file = "httpx-0.26.0.tar.gz", hash = "sha256:451b55c30d5185ea6b23c2c793abf9bb237d2a7dfb901ced6ff69ad37ec1dfaf"},
+    {file = "httpx-0.27.0-py3-none-any.whl", hash = "sha256:71d5465162c13681bff01ad59b2cc68dd838ea1f10e51574bac27103f00c91a5"},
+    {file = "httpx-0.27.0.tar.gz", hash = "sha256:a0cb88a46f32dc874e04ee956e4c2764aba2aa228f650b06788ba6bda2962ab5"},
 ]
 
 [package.dependencies]
@@ -695,17 +695,17 @@ testing = ["fields", "hunter", "process-tests", "pytest-xdist", "six", "virtuale
 
 [[package]]
 name = "pytest-httpx"
-version = "0.29.0"
+version = "0.30.0"
 description = "Send responses to httpx."
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "pytest_httpx-0.29.0-py3-none-any.whl", hash = "sha256:7d6fd29042e7b98ed98199ded120bc8100c8078ca306952666e89bf8807b95ff"},
-    {file = "pytest_httpx-0.29.0.tar.gz", hash = "sha256:ed08ed802e2b315b83cdd16f0b26cbb2b836c29e0fde5c18bc3105f1073e0332"},
+    {file = "pytest-httpx-0.30.0.tar.gz", hash = "sha256:755b8edca87c974dd4f3605c374fda11db84631de3d163b99c0df5807023a19a"},
+    {file = "pytest_httpx-0.30.0-py3-none-any.whl", hash = "sha256:6d47849691faf11d2532565d0c8e0e02b9f4ee730da31687feae315581d7520c"},
 ]
 
 [package.dependencies]
-httpx = "==0.26.*"
+httpx = "==0.27.*"
 pytest = ">=7,<9"
 
 [package.extras]
@@ -747,4 +747,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "2c740a145c3897a6c88620c697e128ed327e58036ee4bfa6f88018868d2ed577"
+content-hash = "23be881553e0285b1b6db4569f06f25ce1ac7598cfb08e8f6b5e2e73ee742c75"
