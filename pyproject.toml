@@ -28,7 +28,7 @@ packages = [
 python = "^3.9"
 httpx = {extras = ["http2"], version = ">=0.23.0,<0.28.0"}
 PyJWT = ">=2.0.0,<2.9.0"
-cryptography = ">=39,<43"
+cryptography = ">=43,<44"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=8.2.0,<8.3.0"
