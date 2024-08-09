@@ -3,12 +3,20 @@ name: Test
 on:
   push: {}
 
+concurrency:
+  group: test-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12']
+        python-version:
+        - '3.9'
+        - '3.10'
+        - '3.11'
+        - '3.12'
 
     name: Python ${{ matrix.python-version }} tests
 
@@ -20,10 +28,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install poetry
+    - name: Install poetry & tox-gh
       run: |
         pip install -U pip pipx
         pipx install poetry
+        pipx install tox
+        pip install tox-gh
 
     - name: Configure poetry
       uses: actions/setup-python@v5
@@ -38,12 +48,15 @@ jobs:
         poetry self add "poetry-dynamic-versioning[plugin]"
         echo "${{ secrets.VOIP_PEM_BASE64 }}" | base64 -d > ./tests/clients/voip/dummy.pem
 
+    - name: Prepare test suite
+      run: tox --notest
+
     - name: Run pytest
       shell: bash
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        poetry run python -m pytest -v tests
+        tox --skip-pkg-install
         poetry run coverage report
 
     - name: Upload coverage reports to Codecov
