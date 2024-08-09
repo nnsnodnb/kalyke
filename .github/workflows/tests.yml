@@ -28,12 +28,12 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install poetry & tox-gh
+    - name: Install poetry & tox-gh-actions
       run: |
         pip install -U pip pipx
         pipx install poetry
         pipx install tox
-        pip install tox-gh
+        pip install tox-gh-actions
 
     - name: Configure poetry
       uses: actions/setup-python@v5
@@ -48,15 +48,12 @@ jobs:
         poetry self add "poetry-dynamic-versioning[plugin]"
         echo "${{ secrets.VOIP_PEM_BASE64 }}" | base64 -d > ./tests/clients/voip/dummy.pem
 
-    - name: Prepare test suite
-      run: tox --notest
-
     - name: Run pytest
       shell: bash
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        tox --skip-pkg-install
+        tox
         poetry run coverage report
 
     - name: Upload coverage reports to Codecov
