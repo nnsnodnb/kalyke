@@ -56,7 +56,7 @@ jobs:
     - name: Install dependencies
       run: poetry install --sync --with dev --no-root
     - name: mypy
-      uses: tsuyoshicho/action-mypy@v4
+      uses: tsuyoshicho/action-mypy@v5
       with:
         github_token: ${{ secrets.github_token }}
         reporter: github-pr-review
