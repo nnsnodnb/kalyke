@@ -1,7 +1,7 @@
 import json
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional
 
 from ..exceptions import (
     LiveActivityAttributesIsNotJSONSerializable,
@@ -16,9 +16,9 @@ from .payload_alert import PayloadAlert
 
 @dataclass(frozen=True)
 class Payload:
-    alert: Optional[Union[str, PayloadAlert]] = field(default=None)
+    alert: Optional[str | PayloadAlert] = field(default=None)
     badge: Optional[int] = field(default=None)
-    sound: Optional[Union[str, CriticalSound]] = field(default=None)
+    sound: Optional[str | CriticalSound] = field(default=None)
     thread_id: Optional[str] = field(default=None)
     category: Optional[str] = field(default=None)
     content_available: bool = field(default=False)

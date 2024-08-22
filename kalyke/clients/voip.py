@@ -1,7 +1,7 @@
 import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional
 
 import httpx
 from httpx import AsyncClient
@@ -13,8 +13,8 @@ from . import __Client as BaseClient
 @dataclass(frozen=True)
 class VoIPClient(BaseClient):
     use_sandbox: bool
-    auth_key_filepath: Union[str, Path]
-    key_filepath: Optional[Union[str, Path]] = field(default=None)
+    auth_key_filepath: str | Path
+    key_filepath: Optional[str | Path] = field(default=None)
     password: Optional[str] = field(default=None)
 
     def __post_init__(self) -> None:

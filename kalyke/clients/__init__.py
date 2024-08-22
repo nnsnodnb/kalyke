@@ -1,7 +1,7 @@
 import importlib
 import urllib.parse
 from pathlib import Path
-from typing import Any, Dict, Union
+from typing import Any, Dict
 
 from httpx import AsyncClient, Response
 
@@ -11,12 +11,12 @@ from ..models import ApnsConfig, Payload
 
 class __Client(object):
     use_sandbox: bool
-    auth_key_filepath: Union[str, Path]
+    auth_key_filepath: str | Path
 
     async def send_message(
         self,
         device_token: str,
-        payload: Union[Payload, Dict[str, Any]],
+        payload: Payload | Dict[str, Any],
         apns_config: ApnsConfig,
     ) -> str:
         if isinstance(payload, Payload):

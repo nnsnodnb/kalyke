@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Union
+from typing import Dict, List, Optional
 
 
 @dataclass(frozen=True)
@@ -15,8 +15,8 @@ class PayloadAlert:
     loc_key: Optional[str] = field(default=None)
     loc_args: Optional[List[str]] = field(default=None)
 
-    def dict(self) -> Dict[str, Union[str, List[str]]]:
-        alert: Dict[str, Optional[Union[str, List[str]]]] = {
+    def dict(self) -> Dict[str, str | List[str]]:
+        alert: Dict[str, Optional[str | List[str]]] = {
             "title": self.title,
             "subtitle": self.subtitle,
             "body": self.body,
@@ -28,5 +28,5 @@ class PayloadAlert:
             "loc-key": self.loc_key,
             "loc-args": self.loc_args,
         }
-        attached_alert: Dict[str, Union[str, List[str]]] = {k: v for k, v in alert.items() if v is not None}
+        attached_alert: Dict[str, str | List[str]] = {k: v for k, v in alert.items() if v is not None}
         return attached_alert
