@@ -69,3 +69,8 @@ exclude = '''
 include_trailing_comma = true
 line_length = 120
 multi_line_output = 3
+
+[tool.pytest.ini_options]
+addopts = '--cov-config=.coveragerc --cov=kalyke --cov-report=xml'
+junit_family = 'xunit2'
+asyncio_default_fixture_loop_scope = 'function'
