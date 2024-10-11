@@ -18,14 +18,15 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12"
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
 ]
 packages = [
     { include = "kalyke" }
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.14"
 httpx = {extras = ["http2"], version = ">=0.23.0,<0.28.0"}
 PyJWT = ">=2.0.0,<2.10.0"
 cryptography = ">=43,<44"
@@ -68,3 +69,8 @@ exclude = '''
 include_trailing_comma = true
 line_length = 120
 multi_line_output = 3
+
+[tool.pytest.ini_options]
+addopts = '--cov-config=.coveragerc --cov=kalyke --cov-report=xml'
+junit_family = 'xunit2'
+asyncio_default_fixture_loop_scope = 'function'
