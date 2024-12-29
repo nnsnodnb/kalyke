@@ -40,7 +40,7 @@ class ApnsConfig:
 
 
 @dataclass(frozen=True)
-class LiveActivityApnsConfig(ApnsConfig):
+class LiveActivityApnsConfig(ApnsConfig):  # type: ignore[override]
     push_type: ApnsPushType = field(default=ApnsPushType.LIVEACTIVITY, init=False)
 
     def __post_init__(self):
@@ -52,7 +52,7 @@ class LiveActivityApnsConfig(ApnsConfig):
 
 
 @dataclass(frozen=True)
-class VoIPApnsConfig(ApnsConfig):
+class VoIPApnsConfig(ApnsConfig):  # type: ignore[override]
     push_type: ApnsPushType = field(default=ApnsPushType.VOIP, init=False)
 
     def __post_init__(self):
