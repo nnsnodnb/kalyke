@@ -2,11 +2,11 @@ from enum import Enum
 
 
 class ApnsPushType(Enum):
-    ALERT: str = "alert"
-    BACKGROUND: str = "background"
-    LOCATION: str = "location"
-    VOIP: str = "voip"
-    COMPLICATION: str = "complication"
-    FILE_PROVIDER: str = "fileprovider"
-    MDM: str = "mdm"
-    LIVEACTIVITY: str = "liveactivity"
+    ALERT = "alert"
+    BACKGROUND = "background"
+    LOCATION = "location"
+    VOIP = "voip"
+    COMPLICATION = "complication"
+    FILE_PROVIDER = "fileprovider"
+    MDM = "mdm"
+    LIVEACTIVITY = "liveactivity"
