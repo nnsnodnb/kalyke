@@ -54,7 +54,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
         cache: 'poetry'
     - name: Install dependencies
-      run: poetry install --sync --with dev --no-root
+      run: poetry sync --with dev --no-root
     - name: mypy
       uses: tsuyoshicho/action-mypy@v5
       with:
