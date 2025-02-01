@@ -39,7 +39,7 @@ jobs:
         github_token: ${{ secrets.github_token }}
         reporter: github-pr-review
         level: warning
-        execute_command: poetry run mypy --config-file mypy.ini .
+        execute_command: poetry run mypy .
 
   actionlint:
     runs-on: ubuntu-latest
