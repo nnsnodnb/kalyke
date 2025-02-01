@@ -3,7 +3,7 @@ name: Linter
 on: [pull_request]
 
 jobs:
-  black:
+  ruff:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -14,30 +14,8 @@ jobs:
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-    - name: black
-      uses: reviewdog/action-black@v3
-      with:
-        github_token: ${{ secrets.github_token }}
-        reporter: github-pr-review
-        level: warning
-
-  flake8:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python environment
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: flake8
-      uses: reviewdog/action-flake8@v3
-      with:
-        github_token: ${{ secrets.github_token }}
-        reporter: github-pr-review
-        level: warning
+    - name: ruff
+      uses: astral-sh/ruff-action@v3
 
   mypy:
     runs-on: ubuntu-latest
@@ -61,21 +39,7 @@ jobs:
         github_token: ${{ secrets.github_token }}
         reporter: github-pr-review
         level: warning
-        execute_command: poetry run mypy --config-file mypy.ini .
-
-  isort:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.9', '3.10', '3.11', '3.12', '3.13']
-    steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python environment
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: isort
-      uses: isort/isort-action@master
+        execute_command: poetry run mypy .
 
   actionlint:
     runs-on: ubuntu-latest

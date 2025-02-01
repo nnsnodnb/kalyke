@@ -1,7 +1,7 @@
 import time
 import uuid
 from dataclasses import dataclass, field
-from typing import Dict, Optional
+from typing import Optional
 
 import httpx
 
@@ -22,11 +22,11 @@ class ApnsConfig:
         if self.identifier:
             try:
                 _ = uuid.UUID(hex=self.identifier, version=4)
-            except ValueError:
-                raise ValueError(f"{self.identifier} is invalid format.")
+            except ValueError as e:
+                raise ValueError(f"{self.identifier} is invalid format.") from e
 
-    def make_headers(self) -> Dict[str, str]:
-        headers: Dict[str, Optional[str]] = {
+    def make_headers(self) -> dict[str, str]:
+        headers: dict[str, Optional[str]] = {
             "apns-push-type": self.push_type.value,
             "apns-id": self.identifier,
             "apns-expiration": str(self.expiration),
@@ -35,7 +35,7 @@ class ApnsConfig:
             "apns-collapse-id": self.collapse_id,
             "user-agent": f"python-httpx/{httpx.__version__} {self.topic}",
         }
-        attached_headers: Dict[str, str] = {k: v for k, v in headers.items() if v is not None}
+        attached_headers: dict[str, str] = {k: v for k, v in headers.items() if v is not None}
         return attached_headers
 
 
