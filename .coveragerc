@@ -1,6 +1,0 @@
-[report]
-include =
-  kalyke/*
-
-[run]
-relative_files = True
