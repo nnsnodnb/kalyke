@@ -1,7 +1,7 @@
 import json
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 from ..exceptions import (
     LiveActivityAttributesIsNotJSONSerializable,
@@ -27,7 +27,7 @@ class Payload:
     interruption_level: Optional[InterruptionLevel] = field(default=None)
     relevance_score: Optional[float] = field(default=None)
     filter_criteria: Optional[str] = field(default=None)
-    custom: Optional[Dict[str, Any]] = field(default=None)
+    custom: Optional[dict[str, Any]] = field(default=None)
 
     def __post_init__(self):
         if self.relevance_score:
@@ -39,8 +39,8 @@ class Payload:
         else:
             raise RelevanceScoreOutOfRangeException(relevance_score=self.relevance_score)
 
-    def dict(self) -> Dict[str, Any]:
-        aps: Dict[str, Any] = {
+    def dict(self) -> dict[str, Any]:
+        aps: dict[str, Any] = {
             "alert": self.alert.dict() if isinstance(self.alert, PayloadAlert) else self.alert,
             "badge": self.badge,
             "sound": self.sound,
@@ -70,19 +70,19 @@ class Payload:
 class LiveActivityPayload(Payload):
     timestamp: datetime = field(default_factory=datetime.now)
     event: LiveActivityEvent = field(default=LiveActivityEvent.UPDATE)
-    content_state: Dict[str, Any] = field(default_factory=dict)
+    content_state: dict[str, Any] = field(default_factory=dict)
     stale_date: Optional[datetime] = field(default=None)
     dismissal_date: Optional[datetime] = field(default=None)
     attributes_type: Optional[str] = field(default=None)
-    attributes: Optional[Dict[str, Any]] = field(default=None)
+    attributes: Optional[dict[str, Any]] = field(default=None)
 
     def __post_init__(self):
         if self.event == LiveActivityEvent.START:
             self._validate_event_is_start()
         try:
             _ = json.dumps(self.content_state)
-        except TypeError:
-            raise LiveActivityContentStateIsNotJSONSerializable()
+        except TypeError as e:
+            raise LiveActivityContentStateIsNotJSONSerializable() from e
         super().__post_init__()
 
     def _validate_relevance_score(self):
@@ -96,12 +96,12 @@ class LiveActivityPayload(Payload):
             )
         try:
             _ = json.dumps(self.attributes)
-        except TypeError:
-            raise LiveActivityAttributesIsNotJSONSerializable()
+        except TypeError as e:
+            raise LiveActivityAttributesIsNotJSONSerializable() from e
 
-    def dict(self) -> Dict[str, Any]:
+    def dict(self) -> dict[str, Any]:
         payload = super().dict()
-        additional: Dict[str, Optional[Any]] = {
+        additional: dict[str, Optional[Any]] = {
             "timestamp": int(self.timestamp.timestamp()),
             "event": self.event.value,
             "content-state": self.content_state,

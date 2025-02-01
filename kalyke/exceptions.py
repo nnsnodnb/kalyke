@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any
 
 
 class VolumeOutOfRangeException(Exception):
@@ -33,7 +33,7 @@ class LiveActivityContentStateIsNotJSONSerializable(Exception):
 
 # https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/handling_notification_responses_from_apns#3394535
 class ApnsProviderException(Exception):
-    def __init__(self, error: Dict[str, Any]) -> None:
+    def __init__(self, error: dict[str, Any]) -> None:
         self.error = error
 
     def __str__(self) -> str:

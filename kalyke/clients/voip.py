@@ -1,7 +1,7 @@
 import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Optional, Union
+from typing import Any, Optional, Union
 
 import httpx
 from httpx import AsyncClient
@@ -19,12 +19,12 @@ class VoIPClient(BaseClient):
 
     def __post_init__(self) -> None:
         if self.key_filepath is None and self.password is not None:
-            warnings.warn(UserWarning("password is ignored because key_filepath is None."))
+            warnings.warn(UserWarning("password is ignored because key_filepath is None."), stacklevel=2)
 
     async def send_message(
         self,
         device_token: str,
-        payload: Dict[str, Any],  # type: ignore[override]
+        payload: dict[str, Any],  # type: ignore[override]
         apns_config: VoIPApnsConfig,  # type: ignore[override]
     ) -> str:
         return await super().send_message(

@@ -1,7 +1,7 @@
 import importlib
 import urllib.parse
 from pathlib import Path
-from typing import Any, Dict, Union
+from typing import Any, Union
 
 from httpx import AsyncClient, Response
 
@@ -9,19 +9,19 @@ from ..exceptions import ApnsProviderException
 from ..models import ApnsConfig, Payload
 
 
-class __Client(object):
+class __Client:
     use_sandbox: bool
     auth_key_filepath: Union[str, Path]
 
     async def send_message(
         self,
         device_token: str,
-        payload: Union[Payload, Dict[str, Any]],
+        payload: Union[Payload, dict[str, Any]],
         apns_config: ApnsConfig,
     ) -> str:
         if isinstance(payload, Payload):
             data = payload.dict()
-        elif isinstance(payload, Dict):
+        elif isinstance(payload, dict):
             data = payload
         else:
             raise ValueError("Type of 'payload' must be specified by Payload or Dict[str, Any].")
@@ -48,10 +48,10 @@ class __Client(object):
     def _make_url(self, device_token: str) -> str:
         return f"{self._base_url}/3/device/{urllib.parse.quote(device_token)}"
 
-    async def _send(self, client: AsyncClient, url: str, data: Dict[str, Any]) -> Response:
+    async def _send(self, client: AsyncClient, url: str, data: dict[str, Any]) -> Response:
         return await client.post(url=url, json=data)
 
-    def _handle_error(self, error_json: Dict[str, Any]) -> ApnsProviderException:
+    def _handle_error(self, error_json: dict[str, Any]) -> ApnsProviderException:
         reason = error_json.pop("reason")
         exceptions_module = importlib.import_module("kalyke.exceptions")
         exception_class = getattr(exceptions_module, reason)
