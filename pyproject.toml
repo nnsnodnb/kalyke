@@ -37,7 +37,7 @@ PyJWT = ">=2.0.0,<2.11.0"
 cryptography = ">=43,<45"
 
 [tool.poetry.group.dev.dependencies]
-pytest = ">=8.3.2,<8.4.0"
+pytest = ">=8.4.0,<8.5.0"
 mypy = ">=1.8,<2"
 pytest-cov = "^6.0.0"
 pytest-httpx = ">=0.21.3"
