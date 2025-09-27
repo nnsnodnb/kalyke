@@ -9,13 +9,13 @@ jobs:
       matrix:
         python-version: ['3.10', '3.11', '3.12', '3.13']
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
     - name: Set up Python environment
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
       with:
         python-version: ${{ matrix.python-version }}
     - name: ruff
-      uses: astral-sh/ruff-action@v3
+      uses: astral-sh/ruff-action@57714a7c8a2e59f32539362ba31877a1957dded1 # v3.5.1
 
   mypy:
     runs-on: ubuntu-latest
@@ -23,18 +23,18 @@ jobs:
       matrix:
         python-version: ['3.10', '3.11', '3.12', '3.13']
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
     - name: Install poetry
       run: pipx install poetry
     - name: Set up Python environment
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
       with:
         python-version: ${{ matrix.python-version }}
         cache: 'poetry'
     - name: Install dependencies
       run: poetry sync --with dev --no-root
     - name: mypy
-      uses: tsuyoshicho/action-mypy@v5
+      uses: tsuyoshicho/action-mypy@089e02ea49b666337a91bd665d8af1d6dd5dadce # v5.1.1
       with:
         github_token: ${{ secrets.github_token }}
         reporter: github-pr-review
@@ -44,9 +44,9 @@ jobs:
   actionlint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8  # v5.0.0
     - name: actionlint
-      uses: reviewdog/action-actionlint@v1
+      uses: reviewdog/action-actionlint@95395aac8c053577d0bc67eb7b74936c660c6f66 # v1.67.0
       with:
         github_token: ${{ secrets.github_token }}
         reporter: github-pr-review
