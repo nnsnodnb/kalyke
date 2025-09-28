@@ -1,7 +1,6 @@
 import time
 import uuid
 from dataclasses import dataclass, field
-from typing import Optional
 
 import httpx
 
@@ -13,10 +12,10 @@ from .apns_push_type import ApnsPushType
 class ApnsConfig:
     topic: str
     push_type: ApnsPushType = field(default=ApnsPushType.ALERT)
-    identifier: Optional[str] = field(default=None)
+    identifier: str | None = field(default=None)
     priority: ApnsPriority = field(default=ApnsPriority.IMMEDIATELY)
     expiration: int = field(default_factory=lambda: int(time.time()) + 2592000)
-    collapse_id: Optional[str] = field(default=None)
+    collapse_id: str | None = field(default=None)
 
     def __post_init__(self):
         if self.identifier:
@@ -26,7 +25,7 @@ class ApnsConfig:
                 raise ValueError(f"{self.identifier} is invalid format.") from e
 
     def make_headers(self) -> dict[str, str]:
-        headers: dict[str, Optional[str]] = {
+        headers: dict[str, str | None] = {
             "apns-push-type": self.push_type.value,
             "apns-id": self.identifier,
             "apns-expiration": str(self.expiration),

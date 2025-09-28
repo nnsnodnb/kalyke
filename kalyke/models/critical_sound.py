@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from typing import Optional, Union
 
 from ..exceptions import VolumeOutOfRangeException
 
@@ -8,7 +7,7 @@ from ..exceptions import VolumeOutOfRangeException
 class CriticalSound:
     critical: bool
     volume: float
-    name: Optional[str] = field(default=None)
+    name: str | None = field(default=None)
 
     def __post_init__(self):
         if 0.0 <= self.volume <= 1.0:
@@ -16,8 +15,8 @@ class CriticalSound:
         else:
             raise VolumeOutOfRangeException(volume=self.volume)
 
-    def dict(self) -> dict[str, Union[int, str, float]]:
-        sound: dict[str, Union[int, str, float]] = {
+    def dict(self) -> dict[str, int | str | float]:
+        sound: dict[str, int | str | float] = {
             "critical": int(self.critical),
             "volume": self.volume,
         }

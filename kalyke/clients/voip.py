@@ -1,7 +1,7 @@
 import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any
 
 import httpx
 from httpx import AsyncClient
@@ -13,9 +13,9 @@ from . import __Client as BaseClient
 @dataclass(frozen=True)
 class VoIPClient(BaseClient):
     use_sandbox: bool
-    auth_key_filepath: Union[str, Path]
-    key_filepath: Optional[Union[str, Path]] = field(default=None)
-    password: Optional[str] = field(default=None)
+    auth_key_filepath: str | Path
+    key_filepath: str | Path | None = field(default=None)
+    password: str | None = field(default=None)
 
     def __post_init__(self) -> None:
         if self.key_filepath is None and self.password is not None:

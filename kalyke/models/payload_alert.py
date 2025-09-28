@@ -1,22 +1,21 @@
 from dataclasses import dataclass, field
-from typing import Optional, Union
 
 
 @dataclass(frozen=True)
 class PayloadAlert:
-    title: Optional[str] = field(default=None)
-    subtitle: Optional[str] = field(default=None)
-    body: Optional[str] = field(default=None)
-    launch_image: Optional[str] = field(default=None)
-    title_loc_key: Optional[str] = field(default=None)
-    title_loc_args: Optional[list[str]] = field(default=None)
-    subtitle_loc_key: Optional[str] = field(default=None)
-    subtitle_loc_args: Optional[list[str]] = field(default=None)
-    loc_key: Optional[str] = field(default=None)
-    loc_args: Optional[list[str]] = field(default=None)
+    title: str | None = field(default=None)
+    subtitle: str | None = field(default=None)
+    body: str | None = field(default=None)
+    launch_image: str | None = field(default=None)
+    title_loc_key: str | None = field(default=None)
+    title_loc_args: list[str] | None = field(default=None)
+    subtitle_loc_key: str | None = field(default=None)
+    subtitle_loc_args: list[str] | None = field(default=None)
+    loc_key: str | None = field(default=None)
+    loc_args: list[str] | None = field(default=None)
 
-    def dict(self) -> dict[str, Union[str, list[str]]]:
-        alert: dict[str, Optional[Union[str, list[str]]]] = {
+    def dict(self) -> dict[str, str | list[str]]:
+        alert: dict[str, str | list[str] | None] = {
             "title": self.title,
             "subtitle": self.subtitle,
             "body": self.body,
@@ -28,5 +27,5 @@ class PayloadAlert:
             "loc-key": self.loc_key,
             "loc-args": self.loc_args,
         }
-        attached_alert: dict[str, Union[str, list[str]]] = {k: v for k, v in alert.items() if v is not None}
+        attached_alert: dict[str, str | list[str]] = {k: v for k, v in alert.items() if v is not None}
         return attached_alert
