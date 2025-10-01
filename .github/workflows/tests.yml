@@ -1,7 +1,11 @@
 name: Test
 
 on:
-  push: {}
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
 
 jobs:
   tests:
