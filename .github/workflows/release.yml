@@ -49,6 +49,6 @@ jobs:
         path: dist/
 
     - name: Publish release distributions to Test PyPI
-      uses: pypa/gh-action-pypi-publish@release/ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
+      uses: pypa/gh-action-pypi-publish@ed0c53931b1dc9bd32cbe73a98c7f6766f8a527e # v1.13.0
       with:
         repository-url: https://test.pypi.org/legacy/  # 一旦試したい
