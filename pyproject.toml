@@ -22,7 +22,7 @@ classifiers = [
 dependencies = [
     "httpx[http2]>=0.23.0,<0.29.0",
     "PyJWT>=2.0.0,<2.11.0",
-    "cryptography>=43,<45",
+    "cryptography>=43,<47",
 ]
 dynamic = ["version"]
 
