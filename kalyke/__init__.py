@@ -1,3 +1,4 @@
+from ._version import __version__
 from .clients.apns import ApnsClient
 from .clients.live_activity import LiveActivityClient
 from .clients.voip import VoIPClient
@@ -31,5 +32,5 @@ __all__ = [
     "VoIPClient",
     "VoIPApnsConfig",
     "exceptions",
+    "__version__",
 ]
-__version__ = "0.0.0"

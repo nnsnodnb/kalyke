@@ -1,7 +1,7 @@
 import json
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Optional, Union
+from typing import Any
 
 from ..exceptions import (
     LiveActivityAttributesIsNotJSONSerializable,
@@ -16,18 +16,18 @@ from .payload_alert import PayloadAlert
 
 @dataclass(frozen=True)
 class Payload:
-    alert: Optional[Union[str, PayloadAlert]] = field(default=None)
-    badge: Optional[int] = field(default=None)
-    sound: Optional[Union[str, CriticalSound]] = field(default=None)
-    thread_id: Optional[str] = field(default=None)
-    category: Optional[str] = field(default=None)
+    alert: str | PayloadAlert | None = field(default=None)
+    badge: int | None = field(default=None)
+    sound: str | CriticalSound | None = field(default=None)
+    thread_id: str | None = field(default=None)
+    category: str | None = field(default=None)
     content_available: bool = field(default=False)
     mutable_content: bool = field(default=False)
-    target_content_identifier: Optional[str] = field(default=None)
-    interruption_level: Optional[InterruptionLevel] = field(default=None)
-    relevance_score: Optional[float] = field(default=None)
-    filter_criteria: Optional[str] = field(default=None)
-    custom: Optional[dict[str, Any]] = field(default=None)
+    target_content_identifier: str | None = field(default=None)
+    interruption_level: InterruptionLevel | None = field(default=None)
+    relevance_score: float | None = field(default=None)
+    filter_criteria: str | None = field(default=None)
+    custom: dict[str, Any] | None = field(default=None)
 
     def __post_init__(self):
         if self.relevance_score:
@@ -71,10 +71,10 @@ class LiveActivityPayload(Payload):
     timestamp: datetime = field(default_factory=datetime.now)
     event: LiveActivityEvent = field(default=LiveActivityEvent.UPDATE)
     content_state: dict[str, Any] = field(default_factory=dict)
-    stale_date: Optional[datetime] = field(default=None)
-    dismissal_date: Optional[datetime] = field(default=None)
-    attributes_type: Optional[str] = field(default=None)
-    attributes: Optional[dict[str, Any]] = field(default=None)
+    stale_date: datetime | None = field(default=None)
+    dismissal_date: datetime | None = field(default=None)
+    attributes_type: str | None = field(default=None)
+    attributes: dict[str, Any] | None = field(default=None)
 
     def __post_init__(self):
         if self.event == LiveActivityEvent.START:
@@ -101,7 +101,7 @@ class LiveActivityPayload(Payload):
 
     def dict(self) -> dict[str, Any]:
         payload = super().dict()
-        additional: dict[str, Optional[Any]] = {
+        additional: dict[str, Any | None] = {
             "timestamp": int(self.timestamp.timestamp()),
             "event": self.event.value,
             "content-state": self.content_state,

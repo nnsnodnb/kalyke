@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Union
 
 import jwt
 from httpx import AsyncClient
@@ -15,7 +14,7 @@ class ApnsClient(BaseClient):
     use_sandbox: bool
     team_id: str
     auth_key_id: str
-    auth_key_filepath: Union[str, Path]
+    auth_key_filepath: str | Path
 
     def _init_client(self, apns_config: ApnsConfig) -> AsyncClient:
         headers = apns_config.make_headers()

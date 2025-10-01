@@ -3,17 +3,5 @@
   "extends": [
     "config:recommended",
     ":disableDependencyDashboard"
-  ],
-  "packageRules": [
-    {
-      "groupName": "httpx",
-      "matchPackageNames": [
-        "httpx",
-        "pytest-httpx"
-      ],
-      "matchManagers": [
-        "poetry"
-      ]
-    }
   ]
 }
