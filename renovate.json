@@ -12,7 +12,7 @@
         "pytest-httpx"
       ],
       "matchManagers": [
-        "poetry"
+        "uv"
       ]
     }
   ]
