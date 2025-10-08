@@ -2,7 +2,7 @@
 name = "kalyke-apns"
 description = "A library for interacting with APNs and VoIP using HTTP/2."
 authors = [{ name = "nnsnodnb", email = "nnsnodnb@gmail.com" }]
-requires-python = ">=3.10.0,<3.14"
+requires-python = ">=3.10.0,<3.15"
 readme = "README.md"
 license = "MIT"
 keywords = [
@@ -13,11 +13,19 @@ keywords = [
     "apple push notifications",
 ]
 classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Communications",
+    "Topic :: Internet",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
     "httpx[http2]>=0.23.0,<0.29.0",
