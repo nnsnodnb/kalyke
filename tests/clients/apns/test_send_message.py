@@ -1,11 +1,19 @@
 import pytest
 
-from kalyke import ApnsClient, ApnsConfig
+from kalyke import ApnsClient, ApnsConfig, Payload
 from kalyke.exceptions import BadDeviceToken
 
 
 @pytest.mark.asyncio
-async def test_success(httpx_mock, auth_key_filepath):
+@pytest.mark.parametrize(
+    "payload",
+    [
+        Payload(alert="test alert"),
+        {"alert": "test alert"},
+    ],
+    ids=["Payload object", "dict"],
+)
+async def test_success(httpx_mock, auth_key_filepath, payload):
     httpx_mock.add_response(
         status_code=200,
         http_version="HTTP/2.0",
@@ -23,9 +31,7 @@ async def test_success(httpx_mock, auth_key_filepath):
     )
     apns_id = await client.send_message(
         device_token="stub_device_token",
-        payload={
-            "alert": "test alert",
-        },
+        payload=payload,
         apns_config=ApnsConfig(
             topic="com.example.App",
         ),
