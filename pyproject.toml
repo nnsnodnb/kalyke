@@ -44,7 +44,7 @@ dev = [
     "pytest-httpx",
     "pytest-asyncio",
     "pem",
-    "ruff",
+    "ruff>=0.14.0",
     "hatch",
     "uv-dynamic-versioning",
 ]
