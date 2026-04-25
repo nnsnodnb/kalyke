@@ -37,7 +37,7 @@ jobs:
         enable-cache: 'true'
 
     - name: mypy
-      uses: tsuyoshicho/action-mypy@089e02ea49b666337a91bd665d8af1d6dd5dadce # v5.1.1
+      uses: tsuyoshicho/action-mypy@c3615998c006f1dee3b5c6f7ec99edace2575687 # v5.1.2
       with:
         github_token: ${{ secrets.github_token }}
         reporter: github-pr-review
