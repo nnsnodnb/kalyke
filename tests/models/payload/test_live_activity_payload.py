@@ -131,3 +131,22 @@ def test_dict_without_all():
         "timestamp": int(now.timestamp()),
         "content-state": {},
     }
+
+
+def test_dict_with_stale_date_and_dismissal_date():
+    now = datetime.now()
+    stale_date = datetime(2030, 1, 1, 12, 0, 0)
+    dismissal_date = datetime(2030, 1, 1, 13, 0, 0)
+    payload = LiveActivityPayload(
+        timestamp=now,
+        event=LiveActivityEvent.UPDATE,
+        stale_date=stale_date,
+        dismissal_date=dismissal_date,
+    )
+    data = payload.dict()
+
+    assert "aps" in data
+    aps = data["aps"]
+    assert aps["stale-date"] == int(stale_date.timestamp())
+    assert aps["dismissal-date"] == int(dismissal_date.timestamp())
+    assert "state-date" not in aps

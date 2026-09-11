@@ -105,7 +105,7 @@ class LiveActivityPayload(Payload):
             "timestamp": int(self.timestamp.timestamp()),
             "event": self.event.value,
             "content-state": self.content_state,
-            "state-date": int(self.stale_date.timestamp()) if self.stale_date else None,
+            "stale-date": int(self.stale_date.timestamp()) if self.stale_date else None,
             "dismissal-date": int(self.dismissal_date.timestamp()) if self.dismissal_date else None,
         }
         additional = {k: v for k, v in additional.items() if v is not None}
