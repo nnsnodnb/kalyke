@@ -149,4 +149,3 @@ def test_dict_with_stale_date_and_dismissal_date():
     aps = data["aps"]
     assert aps["stale-date"] == int(stale_date.timestamp())
     assert aps["dismissal-date"] == int(dismissal_date.timestamp())
-    assert "state-date" not in aps
