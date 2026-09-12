@@ -45,6 +45,7 @@ jobs:
     - build
 
     permissions:
+      contents: write
       id-token: write
 
     steps:
@@ -56,3 +57,12 @@ jobs:
 
     - name: Publish release distributions to PyPI
       uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
+
+    - name: Get the tag name
+      run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> "${GITHUB_ENV}"
+
+    - name: Create release
+      uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+      with:
+        name: v${{ env.TAG_NAME }}
+        generate_release_notes: true
