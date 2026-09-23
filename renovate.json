@@ -3,5 +3,13 @@
   "extends": [
     "config:recommended",
     ":disableDependencyDashboard"
+  ],
+  "packageRules": [
+    {
+      "description": "Auto-merge reviewdog/action-actionlint updates",
+      "matchManagers": ["github-actions"],
+      "matchDepNames": ["reviewdog/action-actionlint"],
+      "automerge": true
+    }
   ]
 }
