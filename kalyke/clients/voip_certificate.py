@@ -11,13 +11,16 @@ from . import __Client as BaseClient
 
 
 @dataclass(frozen=True)
-class VoIPClient(BaseClient):
+class VoIPCertificateClient(BaseClient):
     use_sandbox: bool
     auth_key_filepath: str | Path
     key_filepath: str | Path | None = field(default=None)
     password: str | None = field(default=None)
 
     def __post_init__(self) -> None:
+        warnings.warn(
+            DeprecationWarning("VoIPCertificateClient is deprecated. Use VoIPClient with a .p8 key.")
+        )
         if self.key_filepath is None and self.password is not None:
             warnings.warn(UserWarning("password is ignored because key_filepath is None."), stacklevel=2)
 

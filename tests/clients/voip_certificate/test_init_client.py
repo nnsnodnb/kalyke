@@ -1,10 +1,10 @@
 from httpx import AsyncClient
 
-from kalyke import VoIPApnsConfig, VoIPClient
+from kalyke import VoIPApnsConfig, VoIPCertificateClient
 
 
 def test_success(auth_key_filepath):
-    client = VoIPClient(
+    client = VoIPCertificateClient(
         use_sandbox=True,
         auth_key_filepath=auth_key_filepath,
     )

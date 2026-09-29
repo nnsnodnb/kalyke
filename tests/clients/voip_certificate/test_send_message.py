@@ -1,6 +1,6 @@
 import pytest
 
-from kalyke import ApnsConfig, VoIPClient
+from kalyke import ApnsConfig, VoIPApnsConfig, VoIPCertificateClient
 from kalyke.exceptions import BadDeviceToken
 
 
@@ -8,14 +8,14 @@ from kalyke.exceptions import BadDeviceToken
 async def test_success(httpx_mock, auth_key_filepath):
     httpx_mock.add_response(status_code=200, http_version="HTTP/2.0", headers={"apns-id": "stub_apns_id"})
 
-    client = VoIPClient(
+    client = VoIPCertificateClient(
         use_sandbox=True,
         auth_key_filepath=auth_key_filepath,
     )
     apns_id = await client.send_message(
         device_token="stub_device_token",
         payload={"data": "test data"},
-        apns_config=ApnsConfig(topic="com.example.App.voip"),
+        apns_config=VoIPApnsConfig(topic="com.example.App.voip"),
     )
 
     assert apns_id == "stub_apns_id"
@@ -31,7 +31,7 @@ async def test_bad_device_token(httpx_mock, auth_key_filepath):
         },
     )
 
-    client = VoIPClient(
+    client = VoIPCertificateClient(
         use_sandbox=True,
         auth_key_filepath=auth_key_filepath,
     )
@@ -40,15 +40,15 @@ async def test_bad_device_token(httpx_mock, auth_key_filepath):
         await client.send_message(
             device_token="stub_device_token",
             payload={"data": "test data"},
-            apns_config=ApnsConfig(topic="com.example.App.voip"),
+            apns_config=VoIPApnsConfig(topic="com.example.App.voip"),
         )
 
     assert str(e.value) == str(BadDeviceToken(error={}))
 
 
 @pytest.mark.asyncio
-async def test_value_error(httpx_mock, auth_key_filepath):
-    client = VoIPClient(use_sandbox=True, auth_key_filepath=auth_key_filepath)
+async def test_value_error(auth_key_filepath):
+    client = VoIPCertificateClient(use_sandbox=True, auth_key_filepath=auth_key_filepath)
 
     with pytest.raises(ValueError) as e:
         await client.send_message(
@@ -58,3 +58,17 @@ async def test_value_error(httpx_mock, auth_key_filepath):
         )
 
     assert str(e.value) == "Type of 'payload' must be specified by Payload or Dict[str, Any]."
+
+
+@pytest.mark.asyncio
+async def test_invalid_topic(auth_key_filepath):
+    client = VoIPCertificateClient(use_sandbox=True, auth_key_filepath=auth_key_filepath)
+
+    with pytest.raises(ValueError) as e:
+        await client.send_message(
+            device_token="stub_device_token",
+            payload={"data": "test data"},
+            apns_config=VoIPApnsConfig(topic="com.example.App"),
+        )
+
+    assert str(e.value) == "topic must end with .voip, but com.example.App."

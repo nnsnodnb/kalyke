@@ -1,9 +1,9 @@
 import asyncio
 from pathlib import Path
 
-from kalyke import VoIPApnsConfig, VoIPClient
+from kalyke import VoIPApnsConfig, VoIPCertificateClient
 
-client = VoIPClient(
+client = VoIPCertificateClient(
     use_sandbox=True,
     auth_key_filepath=Path("/") / "path" / "to" / "YOUR_VOIP_CERTIFICATE.pem",
 )

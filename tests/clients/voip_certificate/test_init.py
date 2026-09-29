@@ -4,25 +4,25 @@ from pathlib import Path
 import pem
 import pytest
 
-from kalyke import VoIPClient
+from kalyke import VoIPCertificateClient
 
 
 def test_initialize_with_pathlib(auth_key_filepath):
-    client = VoIPClient(
+    client = VoIPCertificateClient(
         use_sandbox=True,
         auth_key_filepath=auth_key_filepath,
     )
 
-    assert isinstance(client, VoIPClient)
+    assert isinstance(client, VoIPCertificateClient)
 
 
 def test_initialize_with_str(auth_key_filepath):
-    client = VoIPClient(
+    client = VoIPCertificateClient(
         use_sandbox=True,
         auth_key_filepath=str(auth_key_filepath),
     )
 
-    assert isinstance(client, VoIPClient)
+    assert isinstance(client, VoIPCertificateClient)
 
 
 def test_initialize_with_key_filepath(auth_key_filepath):
@@ -34,13 +34,13 @@ def test_initialize_with_key_filepath(auth_key_filepath):
         key_path = tmpdir_path / "key.pem"
         key_path.write_bytes(key.as_bytes())
 
-        client = VoIPClient(
+        client = VoIPCertificateClient(
             use_sandbox=True,
             auth_key_filepath=cer_path,
             key_filepath=key_path,
         )
 
-        assert isinstance(client, VoIPClient)
+        assert isinstance(client, VoIPCertificateClient)
 
 
 def test_initialize_with_key_filepath_and_password(auth_key_filepath):
@@ -52,22 +52,22 @@ def test_initialize_with_key_filepath_and_password(auth_key_filepath):
         key_path = tmpdir_path / "key.pem"
         key_path.write_bytes(key.as_bytes())
 
-        client = VoIPClient(
+        client = VoIPCertificateClient(
             use_sandbox=True,
             auth_key_filepath=cer_path,
             key_filepath=key_path,
             password="password",
         )
 
-    assert isinstance(client, VoIPClient)
+    assert isinstance(client, VoIPCertificateClient)
 
 
 def test_initialize_with_password(auth_key_filepath):
     with pytest.warns(UserWarning, match="password is ignored because key_filepath is None."):
-        client = VoIPClient(
+        client = VoIPCertificateClient(
             use_sandbox=True,
             auth_key_filepath=auth_key_filepath,
             password="password",
         )
 
-        assert isinstance(client, VoIPClient)
+        assert isinstance(client, VoIPCertificateClient)
