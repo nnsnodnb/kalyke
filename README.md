@@ -113,6 +113,38 @@ from kalyke import VoIPApnsConfig, VoIPClient
 
 client = VoIPClient(
     use_sandbox=True,
+    team_id="YOUR_TEAM_ID",
+    auth_key_id="AUTH_KEY_ID",
+    auth_key_filepath="/path/to/AuthKey_AUTH_KEY_ID.p8",
+)
+
+registration_id = "a8a799ba6c21e0795b07b577b562b8537418570c0fb8f7a64dca5a86a5a3b500"
+
+payload = {"key": "value"}
+config = VoIPApnsConfig(
+    topic="com.example.App.voip",
+)
+
+asyncio.run(
+    client.send_message(
+        device_token=registration_id,
+        payload=payload,
+        apns_config=config,
+    )
+)
+```
+
+<details>
+<summary>Deprecated certificate usage</summary>
+
+```python
+import asyncio
+from pathlib import Path
+
+from kalyke import VoIPApnsConfig, VoIPCertificateClient
+
+client = VoIPCertificateClient(
+    use_sandbox=True,
     auth_key_filepath=Path("/") / "path" / "to" / "YOUR_VOIP_CERTIFICATE.pem",
 )
 
@@ -131,6 +163,8 @@ asyncio.run(
     )
 )
 ```
+
+</details>
 
 ## License
 
