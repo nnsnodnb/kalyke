@@ -1,6 +1,7 @@
 from ._version import __version__
 from .clients.apns import ApnsClient
 from .clients.live_activity import LiveActivityClient
+from .clients.voip import VoIPClient
 from .clients.voip_certificate import VoIPCertificateClient
 from .models import (
     ApnsConfig,
@@ -29,6 +30,7 @@ __all__ = [
     "LiveActivityPayload",
     "Payload",
     "PayloadAlert",
+    "VoIPClient",
     "VoIPCertificateClient",
     "VoIPApnsConfig",
     "exceptions",
