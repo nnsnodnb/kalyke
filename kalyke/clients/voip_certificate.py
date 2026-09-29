@@ -19,7 +19,8 @@ class VoIPCertificateClient(BaseClient):
 
     def __post_init__(self) -> None:
         warnings.warn(
-            DeprecationWarning("VoIPCertificateClient is deprecated. Use VoIPClient with a .p8 key.")
+            DeprecationWarning("VoIPCertificateClient is deprecated. Use VoIPClient with a .p8 key."),
+            stacklevel=2,
         )
         if self.key_filepath is None and self.password is not None:
             warnings.warn(UserWarning("password is ignored because key_filepath is None."), stacklevel=2)
