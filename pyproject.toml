@@ -28,7 +28,7 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-    "httpx2[h2,http2]>=2.13.1",
+    "httpx2[http2]>=2.13.1",
     "pyjwt[crypto]>=2.13.0,<2.16.0",
 ]
 dynamic = ["version"]
