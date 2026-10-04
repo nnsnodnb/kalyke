@@ -13,8 +13,8 @@ from kalyke.exceptions import BadDeviceToken
     ],
     ids=["Payload object", "dict"],
 )
-async def test_success(httpx_mock, auth_key_filepath, payload):
-    httpx_mock.add_response(
+async def test_success(httpx2_mock, auth_key_filepath, payload):
+    httpx2_mock.add_response(
         status_code=200,
         http_version="HTTP/2.0",
         headers={
@@ -41,8 +41,8 @@ async def test_success(httpx_mock, auth_key_filepath, payload):
 
 
 @pytest.mark.asyncio
-async def test_bad_device_token(httpx_mock, auth_key_filepath):
-    httpx_mock.add_response(
+async def test_bad_device_token(httpx2_mock, auth_key_filepath):
+    httpx2_mock.add_response(
         status_code=400,
         http_version="HTTP/2.0",
         json={
@@ -72,7 +72,7 @@ async def test_bad_device_token(httpx_mock, auth_key_filepath):
 
 
 @pytest.mark.asyncio
-async def test_value_error(httpx_mock, auth_key_filepath):
+async def test_value_error(httpx2_mock, auth_key_filepath):
     client = ApnsClient(
         use_sandbox=True,
         team_id="DUMMY_TEAM_ID",

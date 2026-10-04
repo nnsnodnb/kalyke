@@ -41,12 +41,12 @@ dev = [
     "pytest",
     "mypy",
     "pytest-cov",
-    "pytest-httpx",
     "pytest-asyncio",
     "pem",
     "ruff>=0.14.0",
     "hatch",
     "uv-dynamic-versioning",
+    "httpx2-pytest",
 ]
 
 [build-system]
