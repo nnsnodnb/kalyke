@@ -2,7 +2,7 @@ import time
 import uuid
 from dataclasses import dataclass, field
 
-import httpx
+import httpx2
 
 from .apns_priority import ApnsPriority
 from .apns_push_type import ApnsPushType
@@ -32,7 +32,7 @@ class ApnsConfig:
             "apns-priority": str(self.priority.value),
             "apns-topic": self.topic,
             "apns-collapse-id": self.collapse_id,
-            "user-agent": f"python-httpx/{httpx.__version__} {self.topic}",
+            "user-agent": f"python-httpx2/{httpx2.__version__} {self.topic}",
         }
         attached_headers: dict[str, str] = {k: v for k, v in headers.items() if v is not None}
         return attached_headers

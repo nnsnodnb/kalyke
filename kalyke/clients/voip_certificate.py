@@ -3,8 +3,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-import httpx
-from httpx import AsyncClient
+import httpx2
+from httpx2 import AsyncClient
 
 from ..models import VoIPApnsConfig
 from . import __Client as BaseClient
@@ -42,7 +42,7 @@ class VoIPCertificateClient(BaseClient):
         apns_config: VoIPApnsConfig,  # type: ignore[override]
     ) -> AsyncClient:
         headers = apns_config.make_headers()
-        context = httpx.create_ssl_context()
+        context = httpx2.create_ssl_context()
         context.load_cert_chain(
             certfile=self._get_auth_key_filepath(),
             keyfile=self.key_filepath,

@@ -5,8 +5,8 @@ from kalyke.exceptions import BadDeviceToken
 
 
 @pytest.mark.asyncio
-async def test_success(httpx_mock, auth_key_filepath):
-    httpx_mock.add_response(
+async def test_success(httpx2_mock, auth_key_filepath):
+    httpx2_mock.add_response(
         status_code=200,
         http_version="HTTP/2.0",
         headers={
@@ -35,8 +35,8 @@ async def test_success(httpx_mock, auth_key_filepath):
 
 
 @pytest.mark.asyncio
-async def test_bad_device_token(httpx_mock, auth_key_filepath):
-    httpx_mock.add_response(
+async def test_bad_device_token(httpx2_mock, auth_key_filepath):
+    httpx2_mock.add_response(
         status_code=400,
         http_version="HTTP/2.0",
         json={

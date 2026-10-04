@@ -1,4 +1,4 @@
-from httpx import AsyncClient
+from httpx2 import AsyncClient
 
 from kalyke import LiveActivityApnsConfig, LiveActivityClient
 

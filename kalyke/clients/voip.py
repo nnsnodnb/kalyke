@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Any
 
-from httpx import AsyncClient
+from httpx2 import AsyncClient
 
 from ..models import VoIPApnsConfig
 from .apns import ApnsClient as BaseClient

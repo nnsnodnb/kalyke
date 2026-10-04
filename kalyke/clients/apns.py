@@ -3,7 +3,7 @@ from datetime import datetime
 from pathlib import Path
 
 import jwt
-from httpx import AsyncClient
+from httpx2 import AsyncClient
 
 from ..models import ApnsConfig
 from . import __Client as BaseClient

@@ -28,7 +28,7 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-    "httpx[http2]>=0.23.0,<0.29.0",
+    "httpx2[h2,http2]>=2.13.1",
     "pyjwt[crypto]>=2.13.0,<2.16.0",
 ]
 dynamic = ["version"]
@@ -41,12 +41,12 @@ dev = [
     "pytest",
     "mypy",
     "pytest-cov",
-    "pytest-httpx",
     "pytest-asyncio",
     "pem",
     "ruff>=0.14.0",
     "hatch",
     "uv-dynamic-versioning",
+    "httpx2-pytest",
 ]
 
 [build-system]
@@ -89,6 +89,9 @@ select = [
 addopts = "--cov-config=.coveragerc --cov=kalyke --cov-report=xml"
 junit_family = "xunit2"
 asyncio_default_fixture_loop_scope = "function"
+filterwarnings = [
+    "ignore:VoIPCertificateClient is deprecated.*:DeprecationWarning",
+]
 testpaths = [
     "tests",
 ]

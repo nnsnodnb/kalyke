@@ -3,7 +3,7 @@ import urllib.parse
 from pathlib import Path
 from typing import Any
 
-from httpx import AsyncClient, Response
+from httpx2 import AsyncClient, Response
 
 from ..exceptions import ApnsProviderException
 from ..models import ApnsConfig, Payload
