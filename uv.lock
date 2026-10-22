@@ -566,11 +566,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/69/5a/469616aa8c2cbb0bb9dd67a3c18d07c01ab604cc0b236ee1c47d260c7f6e/httpx2-2.14.0-py3-none-any.whl", hash = "sha256:9d20c13a10bae1773a0be3b0f1e5beeb4bdd549bc3a2ba18efa32897c65403e4", size = 96901, upload-time = "2026-10-18T16:29:20.819Z" },
 ]
 
-[package.optional-dependencies]
-http2 = [
-    { name = "h2" },
-]
-
 [[package]]
 name = "httpx2"
 version = "2.16.0"
@@ -732,7 +727,6 @@ wheels = [
 name = "kalyke-apns"
 source = { editable = "." }
 dependencies = [
-    { name = "httpx2", version = "2.14.0", source = { registry = "https://pypi.org/simple" }, extra = ["http2"], marker = "python_full_version < '3.11'" },
     { name = "httpx2", version = "2.16.0", source = { registry = "https://pypi.org/simple" }, extra = ["http2"], marker = "python_full_version >= '3.11'" },
     { name = "pyjwt", extra = ["crypto"] },
 ]
@@ -752,7 +746,8 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "httpx2", extras = ["http2"], specifier = ">=2.13.1" },
+    { name = "httpx2", extras = ["http2"], marker = "python_full_version < '3.10'", specifier = ">=2.13.1" },
+    { name = "httpx2", extras = ["http2"], marker = "python_full_version >= '3.11'", specifier = ">=2.13.1,<2.17" },
     { name = "pyjwt", extras = ["crypto"], specifier = ">=2.13.0,<2.16.0" },
 ]
 
@@ -763,7 +758,7 @@ dev = [
     { name = "mypy" },
     { name = "pem" },
     { name = "pytest" },
-    { name = "pytest-asyncio", specifier = "==1.4.0" },
+    { name = "pytest-asyncio" },
     { name = "pytest-cov" },
     { name = "ruff" },
     { name = "uv-dynamic-versioning" },
