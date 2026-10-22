@@ -2,7 +2,7 @@
 name = "kalyke-apns"
 description = "A library for interacting with APNs and VoIP using HTTP/2."
 authors = [{ name = "nnsnodnb", email = "nnsnodnb@gmail.com" }]
-requires-python = ">=3.10.0,<3.16"
+requires-python = ">=3.11.0,<3.16"
 readme = "README.md"
 license = "MIT"
 keywords = [
@@ -21,7 +21,6 @@ classifiers = [
     "Topic :: Internet",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
