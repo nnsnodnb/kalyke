@@ -11,6 +11,10 @@
       "matchDepNames": ["reviewdog/action-actionlint"],
       "automerge": true,
       "platformAutomerge": false
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "minimumReleaseAge": "7 days"
     }
   ]
 }
