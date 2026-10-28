@@ -8,7 +8,7 @@ workflows:
         - 'actions/setup-python@v7.1.0'
         - 'astral-sh/ruff-action@v4.1.0'
         - 'astral-sh/setup-uv@v10.3.2'
-        - 'reviewdog/action-actionlint@v1.80.6'
+        - 'reviewdog/action-actionlint@v1.80.8'
         - 'tsuyoshicho/action-mypy@v5.1.3'
     '.github/workflows/release.yml':
         - 'actions/checkout@v7.0.1'
@@ -91,9 +91,9 @@ dependencies:
         repo_id: 178055147
         uses:
             - 'actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405'
-    'reviewdog/action-actionlint@v1.80.6':
-        ref: 'v1.80.6'
-        commit: 'sha1-48e36f54d8da326b83ab061aee2cc5e01b5ca46f'
+    'reviewdog/action-actionlint@v1.80.8':
+        ref: 'v1.80.8'
+        commit: 'sha1-cfa6a621f27735ccc88d35af9d0608692fd9b9f7'
         owner_id: 48765237
         repo_id: 385059686
     'softprops/action-gh-release@v3.0.3':
