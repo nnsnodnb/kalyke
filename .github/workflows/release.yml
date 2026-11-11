@@ -62,7 +62,7 @@ jobs:
       run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> "${GITHUB_ENV}"
 
     - name: Create release
-      uses: softprops/action-gh-release@v3.0.3
+      uses: softprops/action-gh-release@v3.0.4
       with:
         name: v${{ env.TAG_NAME }}
         draft: true
